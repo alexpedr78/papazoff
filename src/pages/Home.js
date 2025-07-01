@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ArrowRight, Palette, Calendar, FileText } from 'lucide-react';
+import { getArtistInfo } from '../sanity/queries';
+import { urlFor } from '../sanity/client';
 
 const HomeContainer = styled.div`
   min-height: calc(100vh - 80px);
@@ -171,14 +173,52 @@ const FeatureLink = styled(Link)`
 `;
 
 const Home = () => {
+  const [artistInfo, setArtistInfo] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const info = await getArtistInfo()
+        setArtistInfo(info)
+      } catch (error) {
+        console.error('Error loading artist info:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+  if (loading) {
+    return (
+      <HomeContainer className="fade-in">
+        <HeroSection>
+          <HeroContent>
+            <p>Loading...</p>
+          </HeroContent>
+        </HeroSection>
+      </HomeContainer>
+    )
+  }
+
+  // Fallback content if no artist info is found
+  const fallbackContent = {
+    heroTitle: "Masterful Artistry",
+    heroSubtitle: "Discover the profound world of contemporary painting through the eyes of a master artist. Each brushstroke tells a story, each canvas holds a universe of emotion and meaning.",
+    shortBio: "With over two decades of artistic exploration, our featured painter has developed a distinctive voice that bridges classical techniques with contemporary vision."
+  }
+
+  const content = artistInfo || fallbackContent
+
   return (
     <HomeContainer className="fade-in">
       <HeroSection>
         <HeroContent>
-          <HeroTitle>Masterful Artistry</HeroTitle>
+          <HeroTitle>{content.heroTitle || fallbackContent.heroTitle}</HeroTitle>
           <HeroSubtitle>
-            Discover the profound world of contemporary painting through the eyes of a master artist. 
-            Each brushstroke tells a story, each canvas holds a universe of emotion and meaning.
+            {content.heroSubtitle || fallbackContent.heroSubtitle}
           </HeroSubtitle>
           <CTAButton to="/gallery">
             Explore Gallery <ArrowRight size={20} />
@@ -189,27 +229,27 @@ const Home = () => {
       <AboutSection>
         <AboutContent>
           <AboutText>
-            <h2>About the Artist</h2>
+            <h2>About {content.name || 'the Artist'}</h2>
             <p>
-              With over two decades of artistic exploration, our featured painter has developed a distinctive 
-              voice that bridges classical techniques with contemporary vision. Each work emerges from a deep 
-              understanding of color, form, and the human experience.
-            </p>
-            <p>
-              Born from a passion for capturing the essence of life through paint, these artworks invite 
-              viewers into a dialogue about beauty, meaning, and the complexity of our shared existence. 
-              The artist's journey continues to evolve, always pushing boundaries while honoring the 
-              timeless craft of painting.
-            </p>
-            <p>
-              From intimate portraits to sweeping landscapes, each piece represents a moment of artistic 
-              discovery, a conversation between the artist's vision and the canvas that becomes a window 
-              into new worlds of possibility.
+              {content.shortBio || fallbackContent.shortBio}
             </p>
           </AboutText>
-          <PlaceholderImage>
-            Artist Photo Placeholder
-          </PlaceholderImage>
+          {content.profileImage ? (
+            <img 
+              src={urlFor(content.profileImage).width(400).height(400).url()} 
+              alt={content.name}
+              style={{
+                width: '100%',
+                height: '400px',
+                objectFit: 'cover',
+                borderRadius: '12px'
+              }}
+            />
+          ) : (
+            <PlaceholderImage>
+              Artist Photo Placeholder
+            </PlaceholderImage>
+          )}
         </AboutContent>
       </AboutSection>
 

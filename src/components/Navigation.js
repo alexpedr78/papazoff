@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { Menu, X } from 'lucide-react';
+import { getArtistInfo } from '../sanity/queries';
 
 const Nav = styled.nav`
   position: fixed;
@@ -128,7 +129,23 @@ const MobileNavLink = styled(Link)`
 
 const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [artistName, setArtistName] = useState('Artist Portfolio');
   const location = useLocation();
+
+  useEffect(() => {
+    const fetchArtistName = async () => {
+      try {
+        const info = await getArtistInfo();
+        if (info && info.name) {
+          setArtistName(info.name);
+        }
+      } catch (error) {
+        console.error('Error fetching artist name:', error);
+      }
+    };
+
+    fetchArtistName();
+  }, []);
 
   const navItems = [
     { path: '/', label: 'Home' },
@@ -149,7 +166,7 @@ const Navigation = () => {
     <>
       <Nav>
         <NavContainer>
-          <Logo to="/">Artist Portfolio</Logo>
+          <Logo to="/">{artistName}</Logo>
           
           <NavLinks>
             {navItems.map((item) => (
