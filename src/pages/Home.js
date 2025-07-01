@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { ArrowRight, Palette, Calendar, FileText } from 'lucide-react';
-import { getArtistInfo } from '../sanity/queries';
-import { urlFor } from '../sanity/client';
-import { testConnection } from '../sanity/test-connection';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { ArrowRight, Palette, Calendar, FileText } from "lucide-react";
+import { getArtistInfo } from "../sanity/queries";
+import { urlFor } from "../sanity/client";
 
 const HomeContainer = styled.div`
   min-height: calc(100vh - 80px);
@@ -92,7 +91,7 @@ const AboutText = styled.div`
 
   p {
     margin-bottom: 1.5rem;
-    
+
     &:last-child {
       margin-bottom: 0;
     }
@@ -174,23 +173,23 @@ const FeatureLink = styled(Link)`
 `;
 
 const Home = () => {
-  const [artistInfo, setArtistInfo] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [artistInfo, setArtistInfo] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const info = await getArtistInfo()
-        setArtistInfo(info)
+        const info = await getArtistInfo();
+        setArtistInfo(info);
       } catch (error) {
-        console.error('Error loading artist info:', error)
+        console.error("Error loading artist info:", error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   if (loading) {
     return (
@@ -201,23 +200,27 @@ const Home = () => {
           </HeroContent>
         </HeroSection>
       </HomeContainer>
-    )
+    );
   }
 
   // Fallback content if no artist info is found
   const fallbackContent = {
     heroTitle: "Masterful Artistry",
-    heroSubtitle: "Discover the profound world of contemporary painting through the eyes of a master artist. Each brushstroke tells a story, each canvas holds a universe of emotion and meaning.",
-    shortBio: "With over two decades of artistic exploration, our featured painter has developed a distinctive voice that bridges classical techniques with contemporary vision."
-  }
+    heroSubtitle:
+      "Discover the profound world of contemporary painting through the eyes of a master artist. Each brushstroke tells a story, each canvas holds a universe of emotion and meaning.",
+    shortBio:
+      "With over two decades of artistic exploration, our featured painter has developed a distinctive voice that bridges classical techniques with contemporary vision.",
+  };
 
-  const content = artistInfo || fallbackContent
+  const content = artistInfo || fallbackContent;
 
   return (
     <HomeContainer className="fade-in">
       <HeroSection>
         <HeroContent>
-          <HeroTitle>{content.heroTitle || fallbackContent.heroTitle}</HeroTitle>
+          <HeroTitle>
+            {content.heroTitle || fallbackContent.heroTitle}
+          </HeroTitle>
           <HeroSubtitle>
             {content.heroSubtitle || fallbackContent.heroSubtitle}
           </HeroSubtitle>
@@ -230,26 +233,22 @@ const Home = () => {
       <AboutSection>
         <AboutContent>
           <AboutText>
-            <h2>About {content.name || 'the Artist'}</h2>
-            <p>
-              {content.shortBio || fallbackContent.shortBio}
-            </p>
+            <h2>About {content.name || "the Artist"}</h2>
+            <p>{content.shortBio || fallbackContent.shortBio}</p>
           </AboutText>
           {content.profileImage ? (
-            <img 
-              src={urlFor(content.profileImage).width(400).height(400).url()} 
+            <img
+              src={urlFor(content.profileImage).width(400).height(400).url()}
               alt={content.name}
               style={{
-                width: '100%',
-                height: '400px',
-                objectFit: 'cover',
-                borderRadius: '12px'
+                width: "100%",
+                height: "400px",
+                objectFit: "cover",
+                borderRadius: "12px",
               }}
             />
           ) : (
-            <PlaceholderImage>
-              Artist Photo Placeholder
-            </PlaceholderImage>
+            <PlaceholderImage>Artist Photo Placeholder</PlaceholderImage>
           )}
         </AboutContent>
       </AboutSection>
@@ -262,8 +261,9 @@ const Home = () => {
             </div>
             <h3>Original Artworks</h3>
             <p>
-              Explore a comprehensive collection of original paintings, each with detailed information 
-              about materials, dimensions, and availability.
+              Explore a comprehensive collection of original paintings, each
+              with detailed information about materials, dimensions, and
+              availability.
             </p>
             <FeatureLink to="/gallery">
               View Gallery <ArrowRight size={16} />
@@ -276,8 +276,8 @@ const Home = () => {
             </div>
             <h3>Exhibitions</h3>
             <p>
-              Stay updated with upcoming exhibitions and revisit past shows that have showcased 
-              these remarkable works to audiences worldwide.
+              Stay updated with upcoming exhibitions and revisit past shows that
+              have showcased these remarkable works to audiences worldwide.
             </p>
             <FeatureLink to="/exhibitions">
               See Exhibitions <ArrowRight size={16} />
@@ -290,8 +290,8 @@ const Home = () => {
             </div>
             <h3>Artist Manifesto</h3>
             <p>
-              Dive deep into the artist's philosophy and vision through an exclusive 24-minute 
-              documentary and written manifesto.
+              Dive deep into the artist's philosophy and vision through an
+              exclusive 24-minute documentary and written manifesto.
             </p>
             <FeatureLink to="/manifesto">
               Read Manifesto <ArrowRight size={16} />
