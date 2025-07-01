@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { ArrowRight, Palette, Calendar, FileText } from 'lucide-react';
 import { getArtistInfo } from '../sanity/queries';
 import { urlFor } from '../sanity/client';
+import { testConnection } from '../sanity/test-connection';
 
 const HomeContainer = styled.div`
   min-height: calc(100vh - 80px);
