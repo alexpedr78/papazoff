@@ -1,5 +1,5 @@
 // src/components/CommentSection.js
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
 import { getComments, submitComment } from "../sanity/queries";
 
@@ -71,15 +71,15 @@ export default function CommentSection({ contentId, contentType }) {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
-  const fetchComments = async () => {
+  const fetchComments = useCallback(async () => {
     const data = await getComments(contentId, contentType);
     setComments(data);
     setLoading(false);
-  };
+  }, [contentId, contentType]);
 
   useEffect(() => {
     fetchComments();
-  }, [contentId, contentType]);
+  }, [fetchComments]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

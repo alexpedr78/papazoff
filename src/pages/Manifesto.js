@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getManifesto } from "../sanity/queries";
-import { urlFor } from "../sanity/client";
 
 const ManifestoContainer = styled.div`
   min-height: calc(100vh - 80px);
