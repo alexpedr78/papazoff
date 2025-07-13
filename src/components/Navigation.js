@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import styled from 'styled-components';
-import { Menu, X } from 'lucide-react';
-import { getArtistInfo } from '../sanity/queries';
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import styled from "styled-components";
+import { Menu, X } from "lucide-react";
+import { getArtistInfo } from "../sanity/queries";
 
 const Nav = styled.nav`
   position: fixed;
@@ -61,7 +61,9 @@ const NavLink = styled(Link)`
     color: #ffffff;
   }
 
-  ${props => props.$isActive && `
+  ${(props) =>
+    props.$isActive &&
+    `
     color: #ffffff;
     
     &::after {
@@ -101,7 +103,7 @@ const MobileMenu = styled.div`
   padding: 2rem;
 
   @media (max-width: 768px) {
-    display: ${props => props.$isOpen ? 'block' : 'none'};
+    display: ${(props) => (props.$isOpen ? "block" : "none")};
   }
 `;
 
@@ -122,14 +124,16 @@ const MobileNavLink = styled(Link)`
     color: #ffffff;
   }
 
-  ${props => props.$isActive && `
+  ${(props) =>
+    props.$isActive &&
+    `
     color: #ffffff;
   `}
 `;
 
 const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [artistName, setArtistName] = useState('Artist Portfolio');
+  const [artistName, setArtistName] = useState("Artist Portfolio");
   const location = useLocation();
 
   useEffect(() => {
@@ -140,7 +144,7 @@ const Navigation = () => {
           setArtistName(info.name);
         }
       } catch (error) {
-        console.error('Error fetching artist name:', error);
+        console.error("Error fetching artist name:", error);
       }
     };
 
@@ -148,10 +152,11 @@ const Navigation = () => {
   }, []);
 
   const navItems = [
-    { path: '/', label: 'Home' },
-    { path: '/gallery', label: 'Gallery' },
-    { path: '/exhibitions', label: 'Exhibitions' },
-    { path: '/manifesto', label: 'Manifesto' }
+    { path: "/", label: "Home" },
+    { path: "/gallery", label: "Gallery" },
+    { path: "/exhibitions", label: "Exhibitions" },
+    { path: "/manifesto", label: "Manifesto" },
+    { path: "/papazoff", label: "Papazoff" },
   ];
 
   const toggleMobileMenu = () => {
@@ -167,7 +172,7 @@ const Navigation = () => {
       <Nav>
         <NavContainer>
           <Logo to="/">{artistName}</Logo>
-          
+
           <NavLinks>
             {navItems.map((item) => (
               <NavLink

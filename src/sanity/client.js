@@ -2,19 +2,16 @@ import { createClient } from "@sanity/client";
 import imageUrlBuilder from "@sanity/image-url";
 
 export const client = createClient({
-  projectId: 'va67y5aa', // Replace with your actual project ID
-  dataset: 'production',
-  useCdn: true, // Use CDN for faster, cached results
-  apiVersion: '2024-01-01', // Use current date for API version
-  token: process.env.REACT_APP_SANITY_TOKEN,
+  projectId: "nvbey0vw", // Remplacez par votre project ID
+  dataset: "studio",
+  token:
+    "sk3ZwhH5ANe0gNSSjDZF0cWv1ouVUYcAPKY1dpBa0YYlklip9eY58hrAevcUxOgTj63l3DDPI6UCaDwEj8qa4tdhHDqBvFvnvLzHSwd15ANe4ZEcGMfoq52Ug0nFLMqQ8er4l4Ff7aAQFcCQ5Az7wVUTs7283d5pnLFVq1UQ41xZ1OKEC1kq",
+  useCdn: false,
+  apiVersion: "2024-01-01",
 });
 
-// Get a pre-configured url-builder from your sanity client
 const builder = imageUrlBuilder(client);
 
-// Then we like to make a simple function like this that gives the
-// builder an image and returns the builder for you to specify additional
-// parameters:
 export function urlFor(source) {
   return builder.image(source);
 }

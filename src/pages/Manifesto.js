@@ -1,6 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-// import VideoPlayer from '../components/VideoPlayer'; // Placeholder for video player component
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import { getManifesto } from "../sanity/queries";
+import { urlFor } from "../sanity/client";
 
 const ManifestoContainer = styled.div`
   min-height: calc(100vh - 80px);
@@ -24,13 +25,11 @@ const VideoSection = styled.div`
   overflow: hidden;
   border: 1px solid #333;
 
-  // Placeholder video styling
-  height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 1rem;
+  iframe {
+    width: 100%;
+    height: 450px;
+    border: none;
+  }
 `;
 
 const TextSection = styled.div`
@@ -52,23 +51,42 @@ const TextSection = styled.div`
 `;
 
 const Manifesto = () => {
+  const [manifesto, setManifesto] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      const data = await getManifesto();
+      setManifesto(data);
+    })();
+  }, []);
+
+  if (!manifesto) {
+    return (
+      <ManifestoContainer className="fade-in">
+        <ManifestoHeader>Artist Manifesto</ManifestoHeader>
+        <p>Loading...</p>
+      </ManifestoContainer>
+    );
+  }
+
   return (
     <ManifestoContainer className="fade-in">
-      <ManifestoHeader>Artist Manifesto</ManifestoHeader>
-      <VideoSection>
-        {/* Placeholder for video player */}
-        {/* <VideoPlayer src={videoUrl} /> */}
-        Video Placeholder
-      </VideoSection>
+      <ManifestoHeader>{manifesto.title}</ManifestoHeader>
+      {manifesto.videoUrl && (
+        <VideoSection>
+          <iframe
+            src={manifesto.videoUrl}
+            title="Manifesto Video"
+            allowFullScreen
+          />
+        </VideoSection>
+      )}
       <TextSection>
-        <h3>The Language of Paint</h3>
-        <p>
-          Art is not merely decoration—it is a language that speaks to the soul, a bridge between the visible and invisible worlds. In every brushstroke, I seek to capture not just what the eye sees, but what the heart feels.
-        </p>
+        <h3>{manifesto.excerpt}</h3>
+        <p>{manifesto.fullText}</p>
       </TextSection>
     </ManifestoContainer>
   );
 };
 
 export default Manifesto;
-

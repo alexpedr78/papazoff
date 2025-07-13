@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { getExhibitions } from "../sanity/queries";
 import { urlFor } from "../sanity/client";
+import CommentSection from "../components/CommentSection";
 
 const ExhibitionsContainer = styled.div`
   min-height: calc(100vh - 80px);
@@ -71,11 +72,14 @@ const ArrowButton = styled.button`
 `;
 
 export default function Exhibitions() {
+  console.log("Exhibitions component mounted");
+
   const [exhibitions, setExhibitions] = useState([]);
 
   useEffect(() => {
     (async () => {
       const data = await getExhibitions();
+      console.log("Exhibitions fetched:", data);
       setExhibitions(data);
     })();
   }, []);
@@ -94,12 +98,13 @@ export default function Exhibitions() {
 
           <ImageCarousel
             images={[
-              ex.image && urlFor(ex.image).width(1200).url(),
+              ex.image ? urlFor(ex.image).width(1200).url() : null,
               ...(ex.featuredPaintings?.map((fp) =>
-                urlFor(fp.image).width(1200).url()
+                fp.mainImage ? urlFor(fp.mainImage).width(1200).url() : null
               ) || []),
             ].filter(Boolean)}
           />
+          <CommentSection contentId={ex._id} contentType="exhibition" />
         </ExhibitionCard>
       ))}
     </ExhibitionsContainer>

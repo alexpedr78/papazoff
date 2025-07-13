@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -8,6 +8,11 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
+      
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
       sans-serif;
@@ -180,6 +185,8 @@ const GlobalStyle = createGlobalStyle`
       border-color: #555;
     }
   }
+
+
 `;
 
 export default GlobalStyle;
