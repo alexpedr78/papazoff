@@ -1,12 +1,16 @@
-// src/pages/Gallery.js
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+// import { urlFor } from "../sanity/client";
+
 import {
-  getPaintings,
+  getSeries,
+  // getPaintings,
   getStudioPhotos,
   getToilesChezLesGens,
 } from "../sanity/queries";
-import { urlFor } from "../sanity/client";
+
+import ImageCarousel from "../components/ImageCarousel";
 
 const Container = styled.div`
   min-height: calc(100vh - 80px);
@@ -20,63 +24,55 @@ const Section = styled.section`
 `;
 
 const SectionTitle = styled.h2`
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   color: #ffffff;
   text-align: center;
 `;
 
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
+const Subtitle = styled.p`
+  text-align: center;
+  color: #aaa;
+  margin-bottom: 2rem;
 `;
 
-const Card = styled.div`
-  background: #1a1a1a;
-  border: 1px solid #333;
-  border-radius: 8px;
-  overflow: hidden;
-  transition: transform 0.3s ease;
+const ViewAllButton = styled.button`
+  display: block;
+  margin: 1rem auto 0 auto;
+  padding: 0.75rem 1.5rem;
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
 
   &:hover {
-    transform: translateY(-4px);
-  }
-
-  img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    display: block;
-  }
-
-  h3 {
-    margin: 1rem;
-    color: #fff;
-  }
-
-  p {
-    margin: 0 1rem 1rem;
-    color: #ccc;
-    font-size: 0.9rem;
+    background: #eee;
   }
 `;
 
 export default function Gallery() {
-  const [paintings, setPaintings] = useState([]);
+  // const [paintings, setPaintings] = useState([]);
   const [studioPhotos, setStudioPhotos] = useState([]);
   const [toiles, setToiles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [series, setSeries] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
-      const [paintingsData, studioData, toilesData] = await Promise.all([
-        getPaintings(),
+      const [studioData, toilesData, seriesData] = await Promise.all([
+        // getPaintings(),
         getStudioPhotos(),
         getToilesChezLesGens(),
+        getSeries(),
       ]);
-      setPaintings(paintingsData);
+      // setPaintings(paintingsData);
       setStudioPhotos(studioData);
       setToiles(toilesData);
+      setSeries(seriesData);
       setLoading(false);
     })();
   }, []);
@@ -91,57 +87,45 @@ export default function Gallery() {
 
   return (
     <Container className="fade-in">
-      {/* Œuvres en série */}
+      {/* Séries */}
       <Section>
-        <SectionTitle>Œuvres en série</SectionTitle>
-        <Grid>
-          {paintings.map((painting) => (
-            <Card key={painting._id}>
-              {painting.mainImage && (
-                <img
-                  src={urlFor(painting.mainImage).width(600).url()}
-                  alt={painting.title}
-                  draggable={false}
-                />
-              )}
-              <h3>{painting.title}</h3>
-              {painting.description && <p>{painting.description}</p>}
-            </Card>
-          ))}
-        </Grid>
+        <SectionTitle>Séries</SectionTitle>
+        <Subtitle>Découvrez quelques aperçus des séries</Subtitle>
+        <ImageCarousel
+          images={series
+            .map((s) => (s.coverImageUrl ? s.coverImageUrl : null))
+            .filter(Boolean)}
+        />
+        <ViewAllButton onClick={() => navigate("/series")}>
+          Voir toutes les séries
+        </ViewAllButton>
       </Section>
 
-      {/* Photos à l'atelier */}
-      {studioPhotos.length > 0 && (
-        <Section>
-          <SectionTitle>Photos à l’atelier</SectionTitle>
-          <Grid>
-            {studioPhotos.map((photo) => (
-              <Card key={photo._id}>
-                <img src={photo.imageUrl} alt={photo.title} draggable={false} />
-                <h3>{photo.title}</h3>
-                {photo.caption && <p>{photo.caption}</p>}
-              </Card>
-            ))}
-          </Grid>
-        </Section>
-      )}
+      {/* Photos à l'Atelier */}
+      <Section>
+        <SectionTitle>Photos à l’Atelier</SectionTitle>
+        <Subtitle>Un aperçu de l'atelier</Subtitle>
+        <ImageCarousel
+          images={studioPhotos.map((photo) => photo.imageUrl).filter(Boolean)}
+        />
+        <ViewAllButton onClick={() => navigate("/atelier")}>
+          Voir toutes les photos
+        </ViewAllButton>
+      </Section>
 
-      {/* Toiles chez les gens */}
-      {toiles.length > 0 && (
-        <Section>
-          <SectionTitle>Toiles chez les collectionneurs</SectionTitle>
-          <Grid>
-            {toiles.map((toile) => (
-              <Card key={toile._id}>
-                <img src={toile.imageUrl} alt={toile.title} draggable={false} />
-                <h3>{toile.title}</h3>
-                {toile.caption && <p>{toile.caption}</p>}
-              </Card>
-            ))}
-          </Grid>
-        </Section>
-      )}
+      {/* Toiles chez les Gens */}
+      <Section>
+        <SectionTitle>Toiles chez les Gens</SectionTitle>
+        <Subtitle>Quelques photos chez les collectionneurs</Subtitle>
+        <ImageCarousel
+          images={toiles
+            .map((lieu) => (lieu.mainPhotoUrl ? lieu.mainPhotoUrl : null))
+            .filter(Boolean)}
+        />
+        <ViewAllButton onClick={() => navigate("/chez-les-gens")}>
+          Voir toutes les photos
+        </ViewAllButton>
+      </Section>
     </Container>
   );
 }

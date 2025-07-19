@@ -198,18 +198,43 @@ export const getStudioPhotos = async () => {
     return [];
   }
 };
-// Fetch "Toiles chez les Gens"
 export const getToilesChezLesGens = async () => {
   const query = `*[_type == "toilesChezLesGens"] | order(_createdAt desc){
     _id,
     title,
-    caption,
-    "imageUrl": image.asset->url
+    description,
+    "mainPhotoUrl": mainPhoto.asset->url,
+    photos[]{
+      asset->{url}
+    }
   }`;
   try {
     return await client.fetch(query);
   } catch (error) {
     console.error("Error fetching Toiles chez les Gens:", error);
+    return [];
+  }
+};
+
+// Fetch all series
+export const getSeries = async () => {
+  const query = `*[_type == "serie"] | order(_createdAt desc){
+    _id,
+    title,
+    description,
+    "coverImageUrl": coverImage.asset->url,
+    paintings[]->{
+      _id,
+      title,
+      description,
+      mainImage,
+      gallery
+    }
+  }`;
+  try {
+    return await client.fetch(query);
+  } catch (error) {
+    console.error("Error fetching series:", error);
     return [];
   }
 };

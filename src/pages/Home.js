@@ -218,9 +218,7 @@ const Home = () => {
     <HomeContainer className="fade-in">
       <HeroSection>
         <HeroContent>
-          <HeroTitle>
-            {content.heroTitle || fallbackContent.heroTitle}
-          </HeroTitle>
+          <HeroTitle>{content.name || fallbackContent.heroTitle}</HeroTitle>
           <HeroSubtitle>
             {content.heroSubtitle || fallbackContent.heroSubtitle}
           </HeroSubtitle>
