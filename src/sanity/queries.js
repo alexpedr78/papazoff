@@ -217,24 +217,28 @@ export const getToilesChezLesGens = async () => {
 };
 
 // Fetch all series
+// src/sanity/queries.js
+
 export const getSeries = async () => {
-  const query = `*[_type == "serie"] | order(_createdAt desc){
-    _id,
-    title,
-    description,
-    "coverImageUrl": coverImage.asset->url,
-    paintings[]->{
+  const query = `
+    *[_type == "serie"] | order(_createdAt desc){
       _id,
       title,
       description,
-      mainImage,
-      gallery
+      coverImage,
+      "paintings": paintings[]->{
+        _id,
+        title,
+        // on récupère mainImage et gallery avec asset
+        mainImage,
+        gallery
+      }
     }
-  }`;
+  `;
   try {
     return await client.fetch(query);
-  } catch (error) {
-    console.error("Error fetching series:", error);
+  } catch (e) {
+    console.error("Error fetching series:", e);
     return [];
   }
 };

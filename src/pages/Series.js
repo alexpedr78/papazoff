@@ -77,21 +77,15 @@ export default function Series() {
             )} */}
             <h3>{s.title}</h3>
             {s.description && <p>{s.description}</p>}
-            {s.paintings && s.paintings.length > 0 && (
+            {s.paintings?.length > 0 && (
               <ImageCarousel
-                images={[
-                  // On récupère toutes les images principales et galeries
-                  ...s.paintings
-                    .flatMap((p) => [
-                      p.mainImage
-                        ? urlFor(p.mainImage).width(1200).url()
-                        : null,
-                      ...(p.gallery?.map((img) =>
-                        img ? urlFor(img).width(1200).url() : null
-                      ) || []),
-                    ])
-                    .filter(Boolean),
-                ]}
+                images={s.paintings
+                  // on récupère toutes les images (main + galerie)
+                  .flatMap((p) => [p.mainImage, ...(p.gallery || [])])
+                  // on ne garde que celles avec asset._ref
+                  .filter((img) => img?.asset?._ref)
+                  // on transforme en URL
+                  .map((img) => urlFor(img).width(1200).url())}
               />
             )}
           </Card>
