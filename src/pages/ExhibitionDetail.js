@@ -15,6 +15,7 @@ const Container = styled.div`
 
 const Title = styled.h1`
   margin-bottom: 0.5rem;
+  font-size: 2rem;
 `;
 
 const Info = styled.p`
@@ -24,6 +25,14 @@ const Info = styled.p`
 
 const Section = styled.section`
   margin: 2rem 0;
+`;
+
+const SectionTitle = styled.h3`
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: #fff;
+  border-bottom: 1px solid #555;
+  padding-bottom: 0.5rem;
 `;
 
 const DocumentsList = styled.ul`
@@ -40,18 +49,52 @@ const VideoPlayer = styled.video`
   margin-bottom: 1rem;
 `;
 
-// Nouveaux styles pour la galerie complète
+// Responsive main image
+const MainImageWrapper = styled.div`
+  width: 100%;
+  overflow: hidden;
+  margin: 1rem 0;
+`;
+const MainImage = styled.img`
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 6px;
+
+  @media (max-width: 600px) {
+    max-height: 250px;
+  }
+`;
+
+// Featured paintings grid
+const FeaturedGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+`;
+const FeaturedImage = styled.img`
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 4px;
+`;
+
+// Full gallery grid
 const GalleryContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
-  margin-top: 1rem;
 `;
 const GalleryImage = styled.img`
   width: 100%;
   height: 200px;
   object-fit: cover;
   border-radius: 4px;
+`;
+
+const VideoSection = styled.div`
+  margin-bottom: 1rem;
 `;
 
 export default function ExhibitionDetail() {
@@ -68,40 +111,49 @@ export default function ExhibitionDetail() {
     <Container>
       <Title>{ex.title}</Title>
       <Info>
-        {new Date(ex.startDate).toLocaleDateString()}
-        {ex.endDate && ` – ${new Date(ex.endDate).toLocaleDateString()}`}
+        {new Date(ex.startDate).toLocaleDateString("fr-FR")}
+        {ex.endDate && ` – ${new Date(ex.endDate).toLocaleDateString("fr-FR")}`}
         {ex.location && ` • ${ex.location}`}
       </Info>
 
-      {/* Galerie d’images “en vedette” */}
-      <Section>
-        {ex.image && (
-          <img
-            src={urlFor(ex.image).width(1200).url()}
-            alt={ex.title}
-            style={{ width: "100%", marginBottom: "1rem" }}
-          />
-        )}
-        {ex.featuredPaintings.map((fp) => (
-          <img
-            key={fp._id}
-            src={fp.mainImage}
-            alt={fp.title}
-            style={{ width: "100%", marginBottom: "1rem" }}
-          />
-        ))}
-      </Section>
+      {/* Main image */}
+      {ex.image && (
+        <MainImageWrapper>
+          <MainImage src={urlFor(ex.image).width(1200).url()} alt={ex.title} />
+        </MainImageWrapper>
+      )}
 
-      {/* Galerie complète */}
+      {/* Featured paintings */}
+      {ex.featuredPaintings?.length > 0 && (
+        <Section>
+          <SectionTitle>Images épinglées</SectionTitle>
+          <FeaturedGrid>
+            {ex.featuredPaintings.map((fp) => (
+              <FeaturedImage
+                key={fp._id}
+                src={urlFor(fp.mainImage).width(600).url()}
+                alt={fp.title}
+              />
+            ))}
+          </FeaturedGrid>
+        </Section>
+      )}
+
+      {/* Full gallery */}
       <Section>
-        <h3>Galerie complète</h3>
-        {ex.gallery.length > 0 ? (
+        <SectionTitle>Galerie complète</SectionTitle>
+        {ex.gallery?.length > 0 ? (
           <GalleryContainer>
             {ex.gallery.map((img, i) => (
               <GalleryImage
                 key={i}
                 src={img.url}
                 alt={img.alt || `${ex.title} – image ${i + 1}`}
+                style={{
+                  cursor: "zoom-in",
+                  width: "100%",
+                  marginBottom: "1rem",
+                }}
               />
             ))}
           </GalleryContainer>
@@ -111,9 +163,9 @@ export default function ExhibitionDetail() {
       </Section>
 
       {/* Documents */}
-      {ex.documents.length > 0 && (
+      {ex.documents?.length > 0 && (
         <Section>
-          <h3>Documents</h3>
+          <SectionTitle>Documents</SectionTitle>
           <DocumentsList>
             {ex.documents.map((doc) => (
               <li key={doc.url}>
@@ -126,23 +178,23 @@ export default function ExhibitionDetail() {
         </Section>
       )}
 
-      {/* Vidéos */}
-      {ex.videos.length > 0 && (
+      {/* Videos */}
+      {ex.videos?.length > 0 && (
         <Section>
-          <h3>Vidéos</h3>
+          <SectionTitle>Vidéos</SectionTitle>
           {ex.videos.map((vid) => (
-            <div key={vid.url}>
+            <VideoSection key={vid.url}>
               {vid.title && <strong>{vid.title}</strong>}
               {vid.description && <p>{vid.description}</p>}
               <VideoPlayer controls src={vid.url}>
                 Votre navigateur ne supporte pas la vidéo.
               </VideoPlayer>
-            </div>
+            </VideoSection>
           ))}
         </Section>
       )}
 
-      {/* Commentaires */}
+      {/* Comments */}
       <CommentSection contentId={ex._id} contentType="exhibition" />
     </Container>
   );

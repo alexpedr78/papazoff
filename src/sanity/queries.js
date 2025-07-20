@@ -225,21 +225,30 @@ export const getPapazoffInfo = async () => {
       title,
       date,
       location,
-      description
+      description,
+      "documentUrl": document.asset->url,
+      "documentName": document.asset->originalFilename,
+      "filmUrl": film.asset->url,
+      "filmName": film.asset->originalFilename
     },
     dossierExpos[]{
       title,
-      "fileUrl": file.asset->url
+      "fileUrl": file.asset->url,
+      "fileName": file.asset->originalFilename
     },
     pressBookFormats[]{
       format,
-      "fileUrl": file.asset->url
+      "fileUrl": file.asset->url,
+      "fileName": file.asset->originalFilename
     },
-    film{
+    films[]{
       title,
-      videoUrl
+      videoUrl,
+      "fileUrl": file.asset->url,
+      "fileName": file.asset->originalFilename
     }
   }`;
+
   try {
     return await client.fetch(query);
   } catch (error) {
@@ -247,6 +256,7 @@ export const getPapazoffInfo = async () => {
     return null;
   }
 };
+
 // Fetch studio photos
 export const getStudioPhotos = async () => {
   const query = `*[_type == "studioPhoto"] | order(_createdAt desc){
