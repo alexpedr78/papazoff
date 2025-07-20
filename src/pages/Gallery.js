@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-// import { urlFor } from "../sanity/client";
+import { urlFor } from "../sanity/client";
 
 import {
   getSeries,
@@ -70,6 +70,7 @@ export default function Gallery() {
         getSeries(),
       ]);
       // setPaintings(paintingsData);
+      console.log(seriesData);
       setStudioPhotos(studioData);
       setToiles(toilesData);
       setSeries(seriesData);
@@ -93,7 +94,12 @@ export default function Gallery() {
         <Subtitle>Découvrez quelques aperçus des séries</Subtitle>
         <ImageCarousel
           images={series
-            .map((s) => (s.coverImageUrl ? s.coverImageUrl : null))
+            .map((s) => {
+              // on ne génère l'URL que si asset._ref est présent
+              return s.coverImage?.asset?._ref
+                ? urlFor(s.coverImage).width(800).url()
+                : null;
+            })
             .filter(Boolean)}
         />
         <ViewAllButton onClick={() => navigate("/series")}>

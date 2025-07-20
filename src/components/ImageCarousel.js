@@ -10,6 +10,8 @@ const CarouselWrapper = styled.div`
 
 const Slides = styled.div`
   display: flex;
+  /* centre le contenu quand il n’y a qu’une image */
+  justify-content: ${(props) => (props.single ? "center" : "flex-start")};
   overflow-x: auto;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
@@ -56,41 +58,43 @@ const ArrowButton = styled.button`
 
 export default function ImageCarousel({ images, scrollAmount = 300 }) {
   const slidesRef = useRef(null);
+  const single = images.length === 1;
 
   const scroll = (offset) => {
     const slider = slidesRef.current;
     if (!slider) return;
 
     const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
-    // Si on clique gauche alors qu’on est tout à gauche → aller à la fin
     if (offset < 0 && slider.scrollLeft <= 0) {
       slider.scrollTo({ left: maxScrollLeft, behavior: "smooth" });
-    }
-    // Si on clique droite alors qu’on est tout à droite → revenir au début
-    else if (offset > 0 && slider.scrollLeft >= maxScrollLeft) {
+    } else if (offset > 0 && slider.scrollLeft >= maxScrollLeft) {
       slider.scrollTo({ left: 0, behavior: "smooth" });
-    }
-    // Sinon, scroll normal
-    else {
+    } else {
       slider.scrollBy({ left: offset, behavior: "smooth" });
     }
   };
 
   return (
     <CarouselWrapper>
-      <ArrowButton left onClick={() => scroll(-scrollAmount)}>
-        <ChevronLeft size={24} />
-      </ArrowButton>
+      {/* flèche gauche */}
+      {!single && (
+        <ArrowButton left onClick={() => scroll(-scrollAmount)}>
+          <ChevronLeft size={24} />
+        </ArrowButton>
+      )}
 
-      <Slides ref={slidesRef}>
+      <Slides ref={slidesRef} single={single}>
         {images.map((src, i) => (
-          <Slide src={src} key={i} alt={`Slide ${i + 1}`} draggable={false} />
+          <Slide key={i} src={src} alt={`Slide ${i + 1}`} draggable={false} />
         ))}
       </Slides>
 
-      <ArrowButton onClick={() => scroll(scrollAmount)}>
-        <ChevronRight size={24} />
-      </ArrowButton>
+      {/* flèche droite */}
+      {!single && (
+        <ArrowButton onClick={() => scroll(scrollAmount)}>
+          <ChevronRight size={24} />
+        </ArrowButton>
+      )}
     </CarouselWrapper>
   );
 }

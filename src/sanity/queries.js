@@ -72,50 +72,114 @@ export const getFeaturedPaintings = async () => {
 };
 
 // Fetch exhibitions
-export const getExhibitions = async () => {
-  const query = `*[_type == "exhibition"] | order(startDate desc){
-    _id,
-    title,
-    slug,
-    location,
-    startDate,
-    endDate,
-    status,
-    description,
-    image,
-    featuredPaintings[]->{
-      _id,
-      title,
-      mainImage
-    },
-    gallery,
-    website,
-    featured,
-    order
-  }`;
+// Récupère les expos dont status === 'current'
+export const getCurrentExhibitions = async () => {
+  const query = `
+    *[_type == "exhibition" && status == "current"]
+      | order(startDate asc) {
+        _id,
+        title,
+        slug,
+        location,
+        startDate,
+        endDate,
+        image,
+        featuredPaintings[]->{
+          _id,
+          title,
+          mainImage
+        },
+        // documents PDF, PPT, Word…
+        documents[]{
+          "url": asset->url,
+          "fileName": asset->originalFilename
+        },
+        // vidéos associées
+        videos[]{
+          title,
+          description,
+          "url": file.asset->url,
+          "fileName": file.asset->originalFilename
+        }
+      }
+  `;
   try {
     return await client.fetch(query);
-  } catch (error) {
-    console.error("Error fetching exhibitions:", error);
+  } catch (err) {
+    console.error("Error fetching current exhibitions:", err);
     return [];
   }
 };
 
-// Fetch manifesto
-export const getManifesto = async () => {
-  const query = `*[_type == "manifesto"][0]{
-    title,
-    excerpt,
-    videoUrl,
-    fullText,
-    publishedAt,
-    coverImage
-  }`;
+export const getUpcomingExhibitions = async () => {
+  const query = `
+    *[_type == "exhibition" && status == "upcoming"]
+      | order(startDate asc) {
+        _id,
+        title,
+        slug,
+        location,
+        startDate,
+        endDate,
+        image,
+        featuredPaintings[]->{
+          _id,
+          title,
+          mainImage
+        },
+        documents[]{
+          "url": asset->url,
+          "fileName": asset->originalFilename
+        },
+        videos[]{
+          title,
+          description,
+          "url": file.asset->url,
+          "fileName": file.asset->originalFilename
+        }
+      }
+  `;
   try {
     return await client.fetch(query);
-  } catch (error) {
-    console.error("Error fetching manifesto:", error);
-    return null;
+  } catch (err) {
+    console.error("Error fetching upcoming exhibitions:", err);
+    return [];
+  }
+};
+
+export const getPastExhibitions = async () => {
+  const query = `
+    *[_type == "exhibition" && status == "past"]
+      | order(endDate desc) {
+        _id,
+        title,
+        slug,
+        location,
+        startDate,
+        endDate,
+        image,
+        featuredPaintings[]->{
+          _id,
+          title,
+          mainImage
+        },
+        documents[]{
+          "url": asset->url,
+          "fileName": asset->originalFilename
+        },
+        videos[]{
+          title,
+          description,
+          "url": file.asset->url,
+          "fileName": file.asset->originalFilename
+        }
+      }
+  `;
+  try {
+    return await client.fetch(query);
+  } catch (err) {
+    console.error("Error fetching past exhibitions:", err);
+    return [];
   }
 };
 
@@ -215,23 +279,19 @@ export const getToilesChezLesGens = async () => {
     return [];
   }
 };
-
 // Fetch all series
-// src/sanity/queries.js
-
 export const getSeries = async () => {
   const query = `
     *[_type == "serie"] | order(_createdAt desc){
       _id,
       title,
       description,
-      coverImage,
-      "paintings": paintings[]->{
+      coverImage,                // votre image de couverture
+      "paintings": paintings[]->{  
         _id,
         title,
-        // on récupère mainImage et gallery avec asset
-        mainImage,
-        gallery
+        mainImage,               // champ image principal
+        gallery                  // tableau d’images
       }
     }
   `;
@@ -241,4 +301,54 @@ export const getSeries = async () => {
     console.error("Error fetching series:", e);
     return [];
   }
+};
+// src/sanity/queries.js
+export const getExhibitionByTitle = async (title) => {
+  const query = `
+    *[_type == "exhibition" && title == $title][0]{
+      _id,
+      title,
+      // slug si besoin
+      "slug": slug.current,
+      location,
+      startDate,
+      endDate,
+      status,
+      description,
+      // image principale + url
+      image{ 
+        asset->{
+          _id,
+          url
+        }
+      },
+      // tableaux présentés
+      "featuredPaintings": coalesce(featuredPaintings[]->{
+        _id,
+        title,
+        "mainImage": mainImage.asset->url
+      }, []),
+      // galerie d’images
+      "gallery": coalesce(gallery[]{
+        "url": asset->url,
+        "alt": asset->originalFilename
+      }, []),
+      website,
+      featured,
+      order,
+      // documents (PDF, PPT, Word…)
+      "documents": coalesce(documents[]{
+        "url": asset->url,
+        "fileName": asset->originalFilename
+      }, []),
+      // vidéos associées
+      "videos": coalesce(videos[]{
+        title,
+        description,
+        "url": file.asset->url,
+        "fileName": file.asset->originalFilename
+      }, [])
+    }
+  `;
+  return client.fetch(query, { title });
 };

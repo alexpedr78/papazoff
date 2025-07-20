@@ -155,7 +155,6 @@ const Navigation = () => {
     { path: "/", label: "Home" },
     { path: "/gallery", label: "Gallery" },
     { path: "/exhibitions", label: "Exhibitions" },
-    { path: "/manifesto", label: "Manifesto" },
     { path: "/papazoff", label: "Papazoff" },
   ];
 

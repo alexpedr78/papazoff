@@ -5,12 +5,12 @@ import Navigation from "./components/Navigation";
 import Home from "./pages/Home";
 import Gallery from "./pages/Gallery";
 import Exhibitions from "./pages/Exhibitions";
-import Manifesto from "./pages/Manifesto";
 import GlobalStyle from "./styles/GlobalStyle";
 import Papazoff from "./pages/Papazoff";
 import Atelier from "./pages/Atelier";
 import Series from "./pages/Series";
 import ChezLesGens from "./pages/ChezLesGens";
+import ExhibitionDetail from "./pages/ExhibitionDetail";
 const AppContainer = styled.div`
   min-height: 100vh;
   background-color: #0a0a0a;
@@ -40,7 +40,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/exhibitions" element={<Exhibitions />} />
-            <Route path="/manifesto" element={<Manifesto />} />
+            <Route path="/expositions/:title" element={<ExhibitionDetail />} />
             <Route path="/papazoff" element={<Papazoff />} />
             <Route path="/series" element={<Series />} />
             <Route path="/atelier" element={<Atelier />} />
