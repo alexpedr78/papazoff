@@ -135,7 +135,7 @@ export default function Papazoff() {
         <Title>Dossier d’expositions</Title>
         {dossierExpos.length > 0 ? (
           dossierExpos.map((d, i) => (
-            <Link key={i} href={d.file.asset.url} target="_blank">
+            <Link key={i} href={d.file?.asset?.url} target="_blank">
               📄 {d.title}
             </Link>
           ))
@@ -149,7 +149,7 @@ export default function Papazoff() {
         <Title>Press Book</Title>
         {pressBookFormats.length > 0 ? (
           pressBookFormats.map((pb, i) => (
-            <Link key={i} href={pb.file.asset.url} target="_blank">
+            <Link key={i} href={pb.file?.asset?.url} target="_blank">
               📄 {pb.format}
             </Link>
           ))
