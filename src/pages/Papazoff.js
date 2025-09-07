@@ -72,7 +72,6 @@ export default function Papazoff() {
       </Container>
     );
 
-  // <-- Garde d’accès et valeurs par défaut
   const conferences = data?.conferences ?? [];
   const dossierExpos = data?.dossierExpos ?? [];
   const pressBookFormats = data?.pressBookFormats ?? [];

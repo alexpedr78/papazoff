@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getToilesChezLesGens } from "../sanity/queries";
 import ImageCarousel from "../components/ImageCarousel";
+import ImageModal from "../components/ImageModal"; // 👈 remis
+import { urlFor } from "../sanity/client";
 
 const Container = styled.div`
   min-height: calc(100vh - 80px);
@@ -44,6 +46,7 @@ const Card = styled.div`
 export default function ChezLesGens() {
   const [lieux, setLieux] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [modalImage, setModalImage] = useState(null); // 👈 remis
 
   useEffect(() => {
     (async () => {
@@ -71,13 +74,24 @@ export default function ChezLesGens() {
             {lieu.description && <p>{lieu.description}</p>}
             <ImageCarousel
               images={[
-                // ...(lieu.mainPhotoUrl ? [lieu.mainPhotoUrl] : []),
-                ...(lieu.photos?.map((p) => p.asset.url) || []),
+                ...(lieu.mainPhoto
+                  ? [urlFor(lieu.mainPhoto).width(800).url()]
+                  : []),
+                ...(lieu.photos?.map((p) => urlFor(p).width(800).url()) || []),
               ]}
+              onImageClick={(src) => setModalImage(src)}
             />
           </Card>
         ))}
       </Grid>
+
+      {modalImage && (
+        <ImageModal
+          src={modalImage}
+          alt="Aperçu"
+          onClose={() => setModalImage(null)}
+        />
+      )}
     </Container>
   );
 }

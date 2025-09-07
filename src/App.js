@@ -11,6 +11,7 @@ import Atelier from "./pages/Atelier";
 import Series from "./pages/Series";
 import ChezLesGens from "./pages/ChezLesGens";
 import ExhibitionDetail from "./pages/ExhibitionDetail";
+import SerieDetail from "./pages/SerieDetail";
 const AppContainer = styled.div`
   min-height: 100vh;
   background-color: #0a0a0a;
@@ -38,13 +39,15 @@ function App() {
         <MainContent>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/gallery" element={<Gallery />} />
-            <Route path="/exhibitions" element={<Exhibitions />} />
+            <Route path="/galerie" element={<Gallery />} />
+            <Route path="/expositions" element={<Exhibitions />} />
             <Route path="/expositions/:title" element={<ExhibitionDetail />} />
-            <Route path="/papazoff" element={<Papazoff />} />
-            <Route path="/series" element={<Series />} />
+            <Route path="/manifeste" element={<Papazoff />} />
+            <Route path="/séries" element={<Series />} />
             <Route path="/atelier" element={<Atelier />} />
             <Route path="/chez-les-gens" element={<ChezLesGens />} />
+
+            <Route path="/séries/:title" element={<SerieDetail />} />
           </Routes>
         </MainContent>
       </AppContainer>

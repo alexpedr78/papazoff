@@ -312,7 +312,23 @@ export const getSeries = async () => {
     return [];
   }
 };
-// src/sanity/queries.js
+export const getSerieByTitle = async (title) => {
+  const query = `*[_type == "serie" && title == $title][0]{
+    _id,
+    title,
+    description,
+    paintings[]->{
+      _id,
+      title,
+      mainImage,
+      materials,
+      dimensions,
+      availability
+    }
+  }`;
+  return await client.fetch(query, { title });
+};
+
 export const getExhibitionByTitle = async (title) => {
   const query = `
     *[_type == "exhibition" && title == $title][0]{

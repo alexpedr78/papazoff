@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { getSeries } from "../sanity/queries";
 import { urlFor } from "../sanity/client";
@@ -68,23 +69,18 @@ export default function Series() {
       <List>
         {series.map((s) => (
           <Card key={s._id}>
-            {/* {s.coverImageUrl && (
-              <img
-                src={s.coverImageUrl}
-                alt={s.title}
-                style={{ width: "100%", height: "300px", objectFit: "cover" }}
-              />
-            )} */}
-            <h3>{s.title}</h3>
+            <Link
+              to={`/séries/${encodeURIComponent(s.title)}`}
+              style={{ textDecoration: "none" }}
+            >
+              <h3>{s.title}</h3>
+            </Link>
             {s.description && <p>{s.description}</p>}
             {s.paintings?.length > 0 && (
               <ImageCarousel
                 images={s.paintings
-                  // on récupère toutes les images (main + galerie)
                   .flatMap((p) => [p.mainImage, ...(p.gallery || [])])
-                  // on ne garde que celles avec asset._ref
                   .filter((img) => img?.asset?._ref)
-                  // on transforme en URL
                   .map((img) => urlFor(img).width(1200).url())}
               />
             )}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getStudioPhotos } from "../sanity/queries";
-
+import ImageModal from "../components/ImageModal";
 const Container = styled.div`
   min-height: calc(100vh - 80px);
   padding: 2rem 1rem;
@@ -48,6 +48,7 @@ const Card = styled.div`
 export default function Studio() {
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [modalImage, setModalImage] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -71,12 +72,24 @@ export default function Studio() {
       <Grid>
         {photos.map((photo) => (
           <Card key={photo._id}>
-            <img src={photo.imageUrl} alt={photo.title} draggable={false} />
+            <img
+              src={photo.imageUrl}
+              alt={photo.title}
+              draggable={false}
+              onClick={() => setModalImage(photo.imageUrl)}
+            />
             <h3>{photo.title}</h3>
             {photo.caption && <p>{photo.caption}</p>}
           </Card>
         ))}
       </Grid>
+      {modalImage && (
+        <ImageModal
+          src={modalImage}
+          alt="Aperçu"
+          onClose={() => setModalImage(null)}
+        />
+      )}
     </Container>
   );
 }

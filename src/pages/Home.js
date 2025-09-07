@@ -220,10 +220,10 @@ const Home = () => {
         <HeroContent>
           <HeroTitle>{content.name || fallbackContent.heroTitle}</HeroTitle>
           <HeroSubtitle>
-            {content.heroSubtitle || fallbackContent.heroSubtitle}
+            {content.bio || fallbackContent.heroSubtitle}
           </HeroSubtitle>
-          <CTAButton to="/gallery">
-            Explore Gallery <ArrowRight size={20} />
+          <CTAButton to="/galerie">
+            Explorez la Galerie <ArrowRight size={20} />
           </CTAButton>
         </HeroContent>
       </HeroSection>
@@ -257,14 +257,10 @@ const Home = () => {
             <div className="icon">
               <Palette size={32} />
             </div>
-            <h3>Original Artworks</h3>
-            <p>
-              Explore a comprehensive collection of original paintings, each
-              with detailed information about materials, dimensions, and
-              availability.
-            </p>
-            <FeatureLink to="/gallery">
-              View Gallery <ArrowRight size={16} />
+            <h3>Œuvres</h3>
+            <p>Découvrez une sélection de toiles, classées par séries.</p>
+            <FeatureLink to="/galerie">
+              Voir la Gallerie <ArrowRight size={16} />
             </FeatureLink>
           </FeatureCard>
 
@@ -272,13 +268,10 @@ const Home = () => {
             <div className="icon">
               <Calendar size={32} />
             </div>
-            <h3>Exhibitions</h3>
-            <p>
-              Stay updated with upcoming exhibitions and revisit past shows that
-              have showcased these remarkable works to audiences worldwide.
-            </p>
-            <FeatureLink to="/exhibitions">
-              See Exhibitions <ArrowRight size={16} />
+            <h3>Expositions</h3>
+            <p>Consultez les expositions passées, en cours ou à venir.</p>
+            <FeatureLink to="/expositions">
+              Voir les Expositions <ArrowRight size={16} />
             </FeatureLink>
           </FeatureCard>
 
@@ -286,13 +279,10 @@ const Home = () => {
             <div className="icon">
               <FileText size={32} />
             </div>
-            <h3>Artist Manifesto</h3>
-            <p>
-              Dive deep into the artist's philosophy and vision through an
-              exclusive 24-minute documentary and written manifesto.
-            </p>
-            <FeatureLink to="/manifesto">
-              Read Manifesto <ArrowRight size={16} />
+            <h3>Manifeste</h3>
+            <p>Accédez aux documents, conférences et films</p>
+            <FeatureLink to="/manifeste">
+              Accéder au Manifeste <ArrowRight size={16} />
             </FeatureLink>
           </FeatureCard>
         </FeaturesGrid>

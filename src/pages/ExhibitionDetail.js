@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { getExhibitionByTitle } from "../sanity/queries";
 import { urlFor } from "../sanity/client";
 import CommentSection from "../components/CommentSection";
-
+import ImageModal from "../components/ImageModal";
 const Container = styled.div`
   max-width: 800px;
   margin: 2rem auto;
@@ -100,6 +100,7 @@ const VideoSection = styled.div`
 export default function ExhibitionDetail() {
   const { title } = useParams();
   const [ex, setEx] = useState(null);
+  const [modalImage, setModalImage] = useState(null);
 
   useEffect(() => {
     getExhibitionByTitle(decodeURIComponent(title)).then(setEx);
@@ -133,6 +134,7 @@ export default function ExhibitionDetail() {
                 key={fp._id}
                 src={urlFor(fp.mainImage).width(600).url()}
                 alt={fp.title}
+                onClick={() => setModalImage(fp.mainImage)}
               />
             ))}
           </FeaturedGrid>
@@ -154,6 +156,7 @@ export default function ExhibitionDetail() {
                   width: "100%",
                   marginBottom: "1rem",
                 }}
+                onClick={() => setModalImage(img.url)}
               />
             ))}
           </GalleryContainer>
@@ -196,6 +199,14 @@ export default function ExhibitionDetail() {
 
       {/* Comments */}
       <CommentSection contentId={ex._id} contentType="exhibition" />
+
+      {modalImage && (
+        <ImageModal
+          src={modalImage}
+          alt="Aperçu"
+          onClose={() => setModalImage(null)}
+        />
+      )}
     </Container>
   );
 }

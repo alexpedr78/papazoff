@@ -41,7 +41,7 @@ const Slide = styled.img`
 const ArrowButton = styled.button`
   position: absolute;
   top: 50%;
-  ${(props) => (props.left ? "left: 0.5rem" : "right: 0.5rem")};
+  ${(props) => (props.$left ? "left: 0.5rem" : "right: 0.5rem")};
   transform: translateY(-50%);
   background: rgba(0, 0, 0, 0.4);
   border: none;
@@ -56,7 +56,11 @@ const ArrowButton = styled.button`
   }
 `;
 
-export default function ImageCarousel({ images, scrollAmount = 300 }) {
+export default function ImageCarousel({
+  images,
+  scrollAmount = 300,
+  onImageClick,
+}) {
   const slidesRef = useRef(null);
   const single = images.length === 1;
 
@@ -85,7 +89,13 @@ export default function ImageCarousel({ images, scrollAmount = 300 }) {
 
       <Slides ref={slidesRef} single={single}>
         {images.map((src, i) => (
-          <Slide key={i} src={src} alt={`Slide ${i + 1}`} draggable={false} />
+          <Slide
+            key={i}
+            src={src}
+            alt={`Slide ${i + 1}`}
+            draggable={false}
+            onClick={() => onImageClick && onImageClick(src)}
+          />
         ))}
       </Slides>
 

@@ -105,6 +105,7 @@ const MobileMenu = styled.div`
   @media (max-width: 768px) {
     display: ${(props) => (props.$isOpen ? "block" : "none")};
   }
+  z-index: 9999;
 `;
 
 const MobileNavLinks = styled.div`
@@ -152,10 +153,10 @@ const Navigation = () => {
   }, []);
 
   const navItems = [
-    { path: "/", label: "Home" },
-    { path: "/gallery", label: "Gallery" },
-    { path: "/exhibitions", label: "Exhibitions" },
-    { path: "/papazoff", label: "Papazoff" },
+    { path: "/", label: "Accueil" },
+    { path: "/Galerie", label: "Galerie" },
+    { path: "/expositions", label: "Expositions" },
+    { path: "/manifeste", label: "Manifeste" },
   ];
 
   const toggleMobileMenu = () => {

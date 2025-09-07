@@ -53,7 +53,6 @@ const ViewAllButton = styled.button`
 `;
 
 export default function Gallery() {
-  // const [paintings, setPaintings] = useState([]);
   const [studioPhotos, setStudioPhotos] = useState([]);
   const [toiles, setToiles] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -64,13 +63,10 @@ export default function Gallery() {
   useEffect(() => {
     (async () => {
       const [studioData, toilesData, seriesData] = await Promise.all([
-        // getPaintings(),
         getStudioPhotos(),
         getToilesChezLesGens(),
         getSeries(),
       ]);
-      // setPaintings(paintingsData);
-      console.log(seriesData);
       setStudioPhotos(studioData);
       setToiles(toilesData);
       setSeries(seriesData);
@@ -95,14 +91,13 @@ export default function Gallery() {
         <ImageCarousel
           images={series
             .map((s) => {
-              // on ne génère l'URL que si asset._ref est présent
               return s.coverImage?.asset?._ref
                 ? urlFor(s.coverImage).width(800).url()
                 : null;
             })
             .filter(Boolean)}
         />
-        <ViewAllButton onClick={() => navigate("/series")}>
+        <ViewAllButton onClick={() => navigate("/séries")}>
           Voir toutes les séries
         </ViewAllButton>
       </Section>
