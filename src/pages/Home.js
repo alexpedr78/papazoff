@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { ArrowRight, Palette, Calendar, FileText } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { getArtistInfo } from "../sanity/queries";
 import { urlFor } from "../sanity/client";
 
