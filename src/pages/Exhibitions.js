@@ -9,14 +9,12 @@ import {
 } from "../sanity/queries";
 import { urlFor } from "../sanity/client";
 
-// Conteneur de chaque section
 const Section = styled.section`
   max-width: 1200px;
   margin: 2rem auto;
   padding: 0 1rem;
 `;
 
-// Titre de section
 const SectionHeader = styled.h2`
   color: #fff;
   border-bottom: 2px solid #555;
@@ -25,45 +23,49 @@ const SectionHeader = styled.h2`
   font-size: 2rem;
 `;
 
-// Grille de cartes
 const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1rem;
 `;
 
-// Carte d’expo
 const ExpoCard = styled.div`
-  background: #1a1a1a;
-  border: 1px solid #333;
-  border-radius: 6px;
+  background: #111;
+  border: 1px solid #222;
+  border-radius: 12px;
   overflow: hidden;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
   &:hover {
     transform: translateY(-4px);
+    border-color: #444;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
   }
 `;
 
-// Image de la carte
 const ExpoImage = styled.img`
   width: 100%;
   height: 160px;
   object-fit: cover;
 `;
 
-// Contenu texte de la carte
 const ExpoInfo = styled.div`
-  padding: 0.75rem 1rem;
+  padding: 1rem;
   color: #fff;
+
   h3 {
-    margin: 0.25rem 0;
-    font-size: 1.1rem;
+    margin: 0.25rem 0 0.5rem;
+    font-size: 1.2rem;
+    font-weight: 500;
   }
+
   p {
-    margin: 0.15rem 0;
-    font-size: 0.85rem;
+    margin: 0.25rem 0;
+    font-size: 0.9rem;
     color: #ccc;
   }
+
   a {
     display: inline-block;
     margin-top: 0.5rem;
@@ -72,6 +74,7 @@ const ExpoInfo = styled.div`
     font-size: 0.9rem;
     &:hover {
       text-decoration: underline;
+      color: #fff;
     }
   }
 `;
@@ -121,6 +124,7 @@ export default function Exhibitions() {
                       ` – ${new Date(ex.endDate).toLocaleDateString("fr-FR")}`}
                   </p>
                   {ex.location && <p>{ex.location}</p>}
+                  {ex.description && <p>{ex.description}</p>}
                   <Link to={`/expositions/${encodeURIComponent(ex.title)}`}>
                     Voir plus →
                   </Link>

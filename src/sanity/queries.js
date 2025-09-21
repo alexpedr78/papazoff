@@ -110,7 +110,7 @@ export const getCurrentExhibitions = async () => {
     return [];
   }
 };
-
+//FETCH LES EXPOSITIONS A VENIR
 export const getUpcomingExhibitions = async () => {
   const query = `
     *[_type == "exhibition" && status == "upcoming"]
@@ -146,7 +146,7 @@ export const getUpcomingExhibitions = async () => {
     return [];
   }
 };
-
+// fetch les exposititions à venir
 export const getPastExhibitions = async () => {
   const query = `
     *[_type == "exhibition" && status == "past"]
@@ -312,6 +312,7 @@ export const getSeries = async () => {
     return [];
   }
 };
+// fetch les séries par titre
 export const getSerieByTitle = async (title) => {
   const query = `*[_type == "serie" && title == $title][0]{
     _id,
@@ -319,62 +320,60 @@ export const getSerieByTitle = async (title) => {
     description,
     paintings[]->{
       _id,
+      price,
       title,
       mainImage,
-      materials,
+      medium,
+      year,
       dimensions,
       availability
     }
   }`;
   return await client.fetch(query, { title });
 };
-
+// fetch les expositions par titre
 export const getExhibitionByTitle = async (title) => {
-  const query = `
-    *[_type == "exhibition" && title == $title][0]{
+  const query = `*[_type == "exhibition" && title == $title][0]{
+    _id,
+    title,
+    location,
+    startDate,
+    endDate,
+    description,
+    // Image principale
+    "image": image.asset->url,
+    
+    // Tableaux présentés
+    featuredPaintings[]->{
       _id,
       title,
-      // slug si besoin
-      "slug": slug.current,
-      location,
-      startDate,
-      endDate,
-      status,
+      "mainImage": mainImage.asset->url
+    },
+    
+    // Galerie
+    "gallery": gallery[]{
+      "url": asset->url,
+      "alt": asset->altText
+    },
+    
+    // Documents
+    "documents": documents[]{
+      "url": asset->url,
+      "fileName": asset->originalFilename
+    },
+    
+    // Vidéos
+    "videos": videos[]{
+      title,
       description,
-      // image principale + url
-      image{ 
-        asset->{
-          _id,
-          url
-        }
-      },
-      // tableaux présentés
-      "featuredPaintings": coalesce(featuredPaintings[]->{
-        _id,
-        title,
-        "mainImage": mainImage.asset->url
-      }, []),
-      // galerie d’images
-      "gallery": coalesce(gallery[]{
-        "url": asset->url,
-        "alt": asset->originalFilename
-      }, []),
-      website,
-      featured,
-      order,
-      // documents (PDF, PPT, Word…)
-      "documents": coalesce(documents[]{
-        "url": asset->url,
-        "fileName": asset->originalFilename
-      }, []),
-      // vidéos associées
-      "videos": coalesce(videos[]{
-        title,
-        description,
-        "url": file.asset->url,
-        "fileName": file.asset->originalFilename
-      }, [])
+      "url": file.asset->url
     }
-  `;
-  return client.fetch(query, { title });
+  }`;
+
+  try {
+    return await client.fetch(query, { title });
+  } catch (e) {
+    console.error("Error fetching exhibition:", e);
+    return null;
+  }
 };

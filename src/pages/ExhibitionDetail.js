@@ -6,95 +6,131 @@ import { getExhibitionByTitle } from "../sanity/queries";
 import { urlFor } from "../sanity/client";
 import CommentSection from "../components/CommentSection";
 import ImageModal from "../components/ImageModal";
+
 const Container = styled.div`
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+  max-width: 1000px;
+  margin: 3rem auto;
+  padding: 0 1.5rem;
   color: #fff;
 `;
 
 const Title = styled.h1`
+  text-align: center;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 300;
   margin-bottom: 0.5rem;
-  font-size: 2rem;
+  background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 `;
 
 const Info = styled.p`
-  color: #ccc;
-  font-size: 0.9rem;
+  text-align: center;
+  font-size: 1rem;
+  color: #aaa;
+  margin-bottom: 2rem;
 `;
 
-const Section = styled.section`
-  margin: 2rem 0;
-`;
-
-const SectionTitle = styled.h3`
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-  color: #fff;
-  border-bottom: 1px solid #555;
-  padding-bottom: 0.5rem;
-`;
-
-const DocumentsList = styled.ul`
-  list-style: disc;
-  padding-left: 1.2rem;
-  li a {
-    color: #87cefa;
-    text-decoration: underline;
-  }
-`;
-
-const VideoPlayer = styled.video`
-  max-width: 100%;
-  margin-bottom: 1rem;
-`;
-
-// Responsive main image
 const MainImageWrapper = styled.div`
   width: 100%;
   overflow: hidden;
-  margin: 1rem 0;
+  margin: 2rem 0;
 `;
+
 const MainImage = styled.img`
   width: 100%;
-  height: auto;
-  max-height: 400px;
+  max-height: 450px;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
 
-  @media (max-width: 600px) {
-    max-height: 250px;
+  &:hover {
+    transform: scale(1.02);
   }
 `;
 
-// Featured paintings grid
+const Section = styled.section`
+  margin: 3rem 0;
+  padding: 2rem;
+  background: #111;
+  border-radius: 12px;
+  border: 1px solid #222;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+`;
+
+const SectionTitle = styled.h3`
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  color: #fff;
+  border-bottom: 2px solid #333;
+  padding-bottom: 0.5rem;
+`;
+
 const FeaturedGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1rem;
 `;
+
 const FeaturedImage = styled.img`
   width: 100%;
-  height: 150px;
+  height: 160px;
   object-fit: cover;
-  border-radius: 4px;
+  border-radius: 8px;
+  cursor: zoom-in;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+  }
 `;
 
-// Full gallery grid
 const GalleryContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
 `;
+
 const GalleryImage = styled.img`
   width: 100%;
-  height: 200px;
+  height: 220px;
   object-fit: cover;
-  border-radius: 4px;
+  border-radius: 8px;
+  cursor: zoom-in;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+  }
 `;
 
-const VideoSection = styled.div`
-  margin-bottom: 1rem;
+const DocumentCard = styled.a`
+  display: inline-block;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin: 0.5rem;
+  color: #87cefa;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: #555;
+    color: #fff;
+  }
+`;
+
+const VideoWrapper = styled.div`
+  margin-bottom: 1.5rem;
+  video {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
 `;
 
 export default function ExhibitionDetail() {
@@ -117,14 +153,21 @@ export default function ExhibitionDetail() {
         {ex.location && ` • ${ex.location}`}
       </Info>
 
-      {/* Main image */}
       {ex.image && (
         <MainImageWrapper>
           <MainImage src={urlFor(ex.image).width(1200).url()} alt={ex.title} />
         </MainImageWrapper>
       )}
 
-      {/* Featured paintings */}
+      {/* Description */}
+      {ex.description && (
+        <Section>
+          <SectionTitle>Description</SectionTitle>
+          <p>{ex.description}</p>
+        </Section>
+      )}
+
+      {/* Images épinglées */}
       {ex.featuredPaintings?.length > 0 && (
         <Section>
           <SectionTitle>Images épinglées</SectionTitle>
@@ -134,14 +177,14 @@ export default function ExhibitionDetail() {
                 key={fp._id}
                 src={urlFor(fp.mainImage).width(600).url()}
                 alt={fp.title}
-                onClick={() => setModalImage(fp.mainImage)}
+                onClick={() => setModalImage(urlFor(fp.mainImage).url())}
               />
             ))}
           </FeaturedGrid>
         </Section>
       )}
 
-      {/* Full gallery */}
+      {/* Galerie complète */}
       <Section>
         <SectionTitle>Galerie complète</SectionTitle>
         {ex.gallery?.length > 0 ? (
@@ -151,11 +194,6 @@ export default function ExhibitionDetail() {
                 key={i}
                 src={img.url}
                 alt={img.alt || `${ex.title} – image ${i + 1}`}
-                style={{
-                  cursor: "zoom-in",
-                  width: "100%",
-                  marginBottom: "1rem",
-                }}
                 onClick={() => setModalImage(img.url)}
               />
             ))}
@@ -169,36 +207,44 @@ export default function ExhibitionDetail() {
       {ex.documents?.length > 0 && (
         <Section>
           <SectionTitle>Documents</SectionTitle>
-          <DocumentsList>
-            {ex.documents.map((doc) => (
-              <li key={doc.url}>
-                <a href={doc.url} target="_blank" rel="noopener noreferrer">
-                  {doc.fileName}
-                </a>
-              </li>
-            ))}
-          </DocumentsList>
-        </Section>
-      )}
-
-      {/* Videos */}
-      {ex.videos?.length > 0 && (
-        <Section>
-          <SectionTitle>Vidéos</SectionTitle>
-          {ex.videos.map((vid) => (
-            <VideoSection key={vid.url}>
-              {vid.title && <strong>{vid.title}</strong>}
-              {vid.description && <p>{vid.description}</p>}
-              <VideoPlayer controls src={vid.url}>
-                Votre navigateur ne supporte pas la vidéo.
-              </VideoPlayer>
-            </VideoSection>
+          {ex.documents.map((doc) => (
+            <DocumentCard
+              key={doc.url}
+              href={doc.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              📄 {doc.fileName}
+            </DocumentCard>
           ))}
         </Section>
       )}
 
-      {/* Comments */}
-      <CommentSection contentId={ex._id} contentType="exhibition" />
+      {/* Vidéos */}
+      {ex.videos?.length > 0 && (
+        <Section>
+          <SectionTitle>Vidéos</SectionTitle>
+          {ex.videos.map((vid, i) => (
+            <VideoWrapper key={i}>
+              {vid.title && <strong>{vid.title}</strong>}
+              {vid.description && <p>{vid.description}</p>}
+              {vid.file?.asset?.url ? (
+                <video controls src={vid.file.asset.url}>
+                  Votre navigateur ne supporte pas la vidéo.
+                </video>
+              ) : (
+                <p>Pas de fichier vidéo disponible.</p>
+              )}
+            </VideoWrapper>
+          ))}
+        </Section>
+      )}
+
+      {/* Commentaires */}
+      <Section>
+        <SectionTitle>Commentaires</SectionTitle>
+        <CommentSection contentId={ex._id} contentType="exhibition" />
+      </Section>
 
       {modalImage && (
         <ImageModal

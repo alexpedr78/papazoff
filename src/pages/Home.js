@@ -254,9 +254,9 @@ const Home = () => {
       <FeaturesSection>
         <FeaturesGrid>
           <FeatureCard>
-            <div className="icon">
+            {/* <div className="icon">
               <Palette size={32} />
-            </div>
+            </div> */}
             <h3>Œuvres</h3>
             <p>Découvrez une sélection de toiles, classées par séries.</p>
             <FeatureLink to="/galerie">
@@ -265,9 +265,9 @@ const Home = () => {
           </FeatureCard>
 
           <FeatureCard>
-            <div className="icon">
+            {/* <div className="icon">
               <Calendar size={32} />
-            </div>
+            </div> */}
             <h3>Expositions</h3>
             <p>Consultez les expositions passées, en cours ou à venir.</p>
             <FeatureLink to="/expositions">
@@ -276,9 +276,9 @@ const Home = () => {
           </FeatureCard>
 
           <FeatureCard>
-            <div className="icon">
+            {/* <div className="icon">
               <FileText size={32} />
-            </div>
+            </div> */}
             <h3>Manifeste</h3>
             <p>Accédez aux documents, conférences et films</p>
             <FeatureLink to="/manifeste">

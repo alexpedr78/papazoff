@@ -1,3 +1,4 @@
+// src/pages/Series.js
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -8,14 +9,19 @@ import ImageCarousel from "../components/ImageCarousel";
 const Container = styled.div`
   min-height: calc(100vh - 80px);
   padding: 2rem 1rem;
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 0 auto;
+  color: #fff;
 `;
 
-const SectionTitle = styled.h2`
-  margin-bottom: 2rem;
-  color: #ffffff;
+const Title = styled.h1`
   text-align: center;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 300;
+  margin-bottom: 3rem;
+  background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 `;
 
 const List = styled.div`
@@ -25,22 +31,37 @@ const List = styled.div`
 `;
 
 const Card = styled.div`
-  background: #1a1a1a;
-  border: 1px solid #333;
-  border-radius: 8px;
+  background: #111;
+  border: 1px solid #222;
+  border-radius: 12px;
   overflow: hidden;
-  padding-bottom: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: border-color 0.2s ease;
+
+  &:hover {
+    border-color: #444;
+  }
 
   h3 {
-    margin: 1rem;
+    margin: 1.2rem 1.5rem 0.5rem;
     color: #fff;
+    font-size: 1.4rem;
+    font-weight: 500;
   }
 
   p {
-    margin: 0 1rem 1rem;
+    margin: 0 1.5rem 1.5rem;
     color: #ccc;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
   }
+`;
+
+const CoverImage = styled.img`
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-bottom: 1px solid #222;
 `;
 
 export default function Series() {
@@ -58,17 +79,23 @@ export default function Series() {
   if (loading) {
     return (
       <Container>
-        <SectionTitle>Chargement...</SectionTitle>
+        <Title>Chargement...</Title>
       </Container>
     );
   }
 
   return (
     <Container className="fade-in">
-      <SectionTitle>Toutes les Séries</SectionTitle>
+      <Title>Toutes les Séries</Title>
       <List>
         {series.map((s) => (
           <Card key={s._id}>
+            {s.coverImage?.asset?._ref && (
+              <CoverImage
+                src={urlFor(s.coverImage).width(1000).url()}
+                alt={s.title}
+              />
+            )}
             <Link
               to={`/séries/${encodeURIComponent(s.title)}`}
               style={{ textDecoration: "none" }}

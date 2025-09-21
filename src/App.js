@@ -12,6 +12,7 @@ import Series from "./pages/Series";
 import ChezLesGens from "./pages/ChezLesGens";
 import ExhibitionDetail from "./pages/ExhibitionDetail";
 import SerieDetail from "./pages/SerieDetail";
+
 const AppContainer = styled.div`
   min-height: 100vh;
   background-color: #0a0a0a;
@@ -24,10 +25,21 @@ const MainContent = styled.main`
 
 function App() {
   useEffect(() => {
+    // 🔒 désactive le clic droit
     const disableContextMenu = (e) => e.preventDefault();
     document.body.addEventListener("contextmenu", disableContextMenu);
+
+    // 🔒 désactive le drag & drop des images
+    const disableImageDrag = (e) => {
+      if (e.target.tagName === "IMG") {
+        e.preventDefault();
+      }
+    };
+    document.addEventListener("dragstart", disableImageDrag);
+
     return () => {
       document.body.removeEventListener("contextmenu", disableContextMenu);
+      document.removeEventListener("dragstart", disableImageDrag);
     };
   }, []);
 
@@ -46,7 +58,6 @@ function App() {
             <Route path="/séries" element={<Series />} />
             <Route path="/atelier" element={<Atelier />} />
             <Route path="/chez-les-gens" element={<ChezLesGens />} />
-
             <Route path="/séries/:title" element={<SerieDetail />} />
           </Routes>
         </MainContent>
