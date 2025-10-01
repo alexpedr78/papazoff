@@ -221,24 +221,42 @@ export default function ExhibitionDetail() {
       )}
 
       {/* Vidéos */}
-      {ex.videos?.length > 0 && (
+      {/* Vidéos */}
+      {/* Vidéos */}
+      {ex.videos ? (
         <Section>
           <SectionTitle>Vidéos</SectionTitle>
-          {ex.videos.map((vid, i) => (
-            <VideoWrapper key={i}>
-              {vid.title && <strong>{vid.title}</strong>}
-              {vid.description && <p>{vid.description}</p>}
-              {vid.file?.asset?.url ? (
-                <video controls src={vid.file.asset.url}>
-                  Votre navigateur ne supporte pas la vidéo.
-                </video>
-              ) : (
-                <p>Pas de fichier vidéo disponible.</p>
-              )}
-            </VideoWrapper>
-          ))}
+          {ex.videos.length > 0 ? (
+            ex.videos.map((vid, i) => (
+              <VideoWrapper key={i}>
+                {vid.title && <strong>{vid.title}</strong>}
+                {vid.description && <p>{vid.description}</p>}
+
+                {vid.videoUrl ? (
+                  <div style={{ marginBottom: "1rem" }}>
+                    <iframe
+                      src={vid.videoUrl}
+                      title={vid.title || `video-${i}`}
+                      width="100%"
+                      height="400"
+                      allowFullScreen
+                      style={{ border: "none", borderRadius: "8px" }}
+                    />
+                  </div>
+                ) : vid.file?.asset?.url ? (
+                  <video controls src={vid.file.asset.url}>
+                    Votre navigateur ne supporte pas la vidéo.
+                  </video>
+                ) : (
+                  <p>Pas de vidéo disponible.</p>
+                )}
+              </VideoWrapper>
+            ))
+          ) : (
+            <p>Aucune vidéo disponible.</p>
+          )}
         </Section>
-      )}
+      ) : null}
 
       {/* Commentaires */}
       <Section>

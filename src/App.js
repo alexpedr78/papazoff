@@ -12,6 +12,11 @@ import Series from "./pages/Series";
 import ChezLesGens from "./pages/ChezLesGens";
 import ExhibitionDetail from "./pages/ExhibitionDetail";
 import SerieDetail from "./pages/SerieDetail";
+import PapazoffPressBook from "./pages/PapazoffPressBook";
+import PapazoffFilms from "./pages/PapazoffFilms";
+import PapazoffManifeste from "./pages/PapazoffManifeste";
+import PapazoffConferences from "./pages/PapazoffConferences";
+import PapazoffPoesie from "./pages/PapazoffPoesie";
 
 const AppContainer = styled.div`
   min-height: 100vh;
@@ -55,6 +60,14 @@ function App() {
             <Route path="/expositions" element={<Exhibitions />} />
             <Route path="/expositions/:title" element={<ExhibitionDetail />} />
             <Route path="/manifeste" element={<Papazoff />} />
+            <Route path="/papazoff/pressbook" element={<PapazoffPressBook />} />
+            <Route path="/papazoff/films" element={<PapazoffFilms />} />
+            <Route path="/papazoff/manifeste" element={<PapazoffManifeste />} />
+            <Route
+              path="/papazoff/conferences"
+              element={<PapazoffConferences />}
+            />
+            <Route path="/papazoff/poesie" element={<PapazoffPoesie />} />
             <Route path="/séries" element={<Series />} />
             <Route path="/atelier" element={<Atelier />} />
             <Route path="/chez-les-gens" element={<ChezLesGens />} />

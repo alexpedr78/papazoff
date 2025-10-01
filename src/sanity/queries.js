@@ -218,34 +218,58 @@ export const submitComment = async (commentData) => {
     throw error;
   }
 };
-// Fetch Papazoff Info
 export const getPapazoffInfo = async () => {
   const query = `*[_type == "papazoffInfo"][0]{
-    conferences[]{
+    name,
+
+    pressBook[]{
       title,
-      date,
-      location,
       description,
-      "documentUrl": document.asset->url,
-      "documentName": document.asset->originalFilename,
-      "filmUrl": film.asset->url,
-      "filmName": film.asset->originalFilename
-    },
-    dossierExpos[]{
-      title,
       "fileUrl": file.asset->url,
-      "fileName": file.asset->originalFilename
+      "fileName": file.asset->originalFilename,
+      videoUrl,
+      "videoFileUrl": videoFile.asset->url,
+      "videoFileName": videoFile.asset->originalFilename
     },
-    pressBookFormats[]{
-      format,
-      "fileUrl": file.asset->url,
-      "fileName": file.asset->originalFilename
-    },
+
     films[]{
       title,
+      description,
       videoUrl,
       "fileUrl": file.asset->url,
       "fileName": file.asset->originalFilename
+    },
+
+    manifeste[]{
+      title,
+      description,
+      "fileUrl": document.asset->url,
+      "fileName": document.asset->originalFilename,
+      videoUrl,
+      "videoFileUrl": videoFile.asset->url,
+      "videoFileName": videoFile.asset->originalFilename
+    },
+
+    conferences[]{
+      title,
+      description,
+      date,
+      location,
+      "docUrl": document.asset->url,
+      "docName": document.asset->originalFilename,
+      videoUrl,
+      "videoFileUrl": videoFile.asset->url,
+      "videoFileName": videoFile.asset->originalFilename
+    },
+
+    poesie[]{
+      title,
+      description,
+      "fileUrl": file.asset->url,
+      "fileName": file.asset->originalFilename,
+      videoUrl,
+      "videoFileUrl": videoFile.asset->url,
+      "videoFileName": videoFile.asset->originalFilename
     }
   }`;
 

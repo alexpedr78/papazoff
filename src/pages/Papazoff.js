@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getPapazoffInfo, getArtistInfo } from "../sanity/queries";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   padding: 2rem 1rem;
@@ -57,34 +58,22 @@ const Card = styled.div`
   }
 `;
 
-const Link = styled.a`
+const ViewMore = styled(Link)`
   display: inline-block;
-  margin-top: 0.8rem;
-  color: #87cefa;
-  font-weight: 500;
+  margin-top: 1rem;
+  padding: 0.8rem 1.6rem;
+  border-radius: 8px;
+  background: #1a1a1a;
+  color: #ecf2f7ff;
+  font-weight: 600;
   text-decoration: none;
-  transition: color 0.2s ease;
+  border: 1px solid #333;
+  transition: all 0.2s ease;
 
   &:hover {
-    color: #fff;
-    text-decoration: underline;
-  }
-`;
-
-const VideoWrapper = styled.div`
-  position: relative;
-  padding-bottom: 56.25%;
-  height: 0;
-  overflow: hidden;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-
-  iframe {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 8px;
+    background: #dee7ecff;
+    color: #0a0a0a;
+    border-color: #aec6d5ff;
   }
 `;
 
@@ -118,117 +107,78 @@ export default function Papazoff() {
     );
   }
 
-  const conferences = data?.conferences ?? [];
-  const dossierExpos = data?.dossierExpos ?? [];
-  const pressBookFormats = data?.pressBookFormats ?? [];
-  const films = data?.films ?? [];
-
   return (
     <Container>
-      <Title>{artist?.name || "Papazoff"}</Title>
+      <Title>{artist?.name || data?.name || "Papazoff"}</Title>
 
-      {/* Intro artiste */}
-      {artist && (
-        <Section>
-          {artist.photoUrl && (
-            <img
-              src={artist.photoUrl}
-              alt={artist.name}
-              style={{
-                borderRadius: "50%",
-                maxWidth: "200px",
-                display: "block",
-                margin: "0 auto 1.5rem",
-              }}
-            />
-          )}
-          <p style={{ textAlign: "center", color: "#ccc" }}>{artist.bio}</p>
-        </Section>
-      )}
-
-      {/* Conférences */}
-      <Section>
-        <SectionTitle>Conférences</SectionTitle>
-        {conferences.length > 0 ? (
-          conferences.map((c, i) => (
-            <Card key={i}>
-              <h3>{c.title}</h3>
-              <p>{c.date && new Date(c.date).toLocaleDateString("fr-FR")}</p>
-              <p>{c.location}</p>
-              <p>{c.description}</p>
-
-              {c.documentUrl && (
-                <Link href={c.documentUrl} target="_blank">
-                  📄 {c.documentName || "Document"}
-                </Link>
-              )}
-
-              {c.filmUrl && (
-                <VideoWrapper>
-                  <iframe
-                    src={c.filmUrl}
-                    title={`${c.title} film`}
-                    allowFullScreen
-                  />
-                </VideoWrapper>
-              )}
-            </Card>
-          ))
-        ) : (
-          <p>Aucune conférence disponible.</p>
-        )}
-      </Section>
-
-      {/* Dossiers d’expositions */}
-      <Section>
-        <SectionTitle>Dossier d’expositions</SectionTitle>
-        {dossierExpos.length > 0 ? (
-          dossierExpos.map((d, i) => (
-            <Link key={i} href={d.fileUrl} target="_blank">
-              📄 {d.fileName || d.title}
-            </Link>
-          ))
-        ) : (
-          <p>Aucun dossier disponible.</p>
-        )}
-      </Section>
-
-      {/* Press Book */}
+      {/* Aperçu Press Book */}
       <Section>
         <SectionTitle>Press Book</SectionTitle>
-        {pressBookFormats.length > 0 ? (
-          pressBookFormats.map((pb, i) => (
-            <Link key={i} href={pb.fileUrl} target="_blank">
-              📄 {pb.fileName || pb.format}
-            </Link>
-          ))
+        {data?.pressBook?.length > 0 ? (
+          <Card>
+            <h3>{data.pressBook[0].title}</h3>
+            {/* <p>{data.pressBook[0].description?.slice(0, 100)}...</p> */}
+          </Card>
         ) : (
           <p>Aucun press book disponible.</p>
         )}
+        <ViewMore to="/papazoff/pressbook">→ Voir tout</ViewMore>
       </Section>
 
-      {/* Films */}
+      {/* Aperçu Films */}
       <Section>
         <SectionTitle>Films</SectionTitle>
-        {films.length > 0 ? (
-          films.map((f, i) => (
-            <Card key={i}>
-              <h3>{f.title}</h3>
-              {f.videoUrl && (
-                <VideoWrapper>
-                  <iframe src={f.videoUrl} title={f.title} allowFullScreen />
-                </VideoWrapper>
-              )}
-              {f.fileUrl && (
-                <Link href={f.fileUrl} target="_blank">
-                  🎬 {f.fileName || "Télécharger"}
-                </Link>
-              )}
-            </Card>
-          ))
+        {data?.films?.length > 0 ? (
+          <Card>
+            <h3>{data.films[0].title}</h3>
+            <p>{data.films[0].description?.slice(0, 100)}...</p>
+          </Card>
         ) : (
           <p>Aucun film disponible.</p>
         )}
+        <ViewMore to="/papazoff/films">→ Voir tout</ViewMore>
+      </Section>
+
+      {/* Aperçu Manifeste */}
+      <Section>
+        <SectionTitle>Manifeste</SectionTitle>
+        {data?.manifeste?.length > 0 ? (
+          <Card>
+            <h3>{data.manifeste[0].title}</h3>
+            <p>{data.manifeste[0].description?.slice(0, 100)}...</p>
+          </Card>
+        ) : (
+          <p>Aucun manifeste disponible.</p>
+        )}
+        <ViewMore to="/papazoff/manifeste">→ Voir tout</ViewMore>
+      </Section>
+
+      {/* Aperçu Conférences */}
+      <Section>
+        <SectionTitle>Conférences</SectionTitle>
+        {data?.conferences?.length > 0 ? (
+          <Card>
+            <h3>{data.conferences[0].title}</h3>
+            <p>{data.conferences[0].description?.slice(0, 100)}...</p>
+          </Card>
+        ) : (
+          <p>Aucune conférence disponible.</p>
+        )}
+        <ViewMore to="/papazoff/conferences">→ Voir tout</ViewMore>
+      </Section>
+
+      {/* Aperçu Poésie */}
+      <Section>
+        <SectionTitle>Poésie</SectionTitle>
+        {data?.poesie?.length > 0 ? (
+          <Card>
+            <h3>{data.poesie[0].title}</h3>
+            <p>{data.poesie[0].description?.slice(0, 100)}...</p>
+          </Card>
+        ) : (
+          <p>Aucune poésie disponible.</p>
+        )}
+        <ViewMore to="/papazoff/poesie">→ Voir tout</ViewMore>
       </Section>
     </Container>
   );
