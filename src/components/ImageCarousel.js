@@ -10,13 +10,15 @@ const CarouselWrapper = styled.div`
 
 const Slides = styled.div`
   display: flex;
-  /* centre le contenu quand il n’y a qu’une image */
   justify-content: ${(props) => (props.single ? "center" : "flex-start")};
   overflow-x: auto;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   gap: 1rem;
   padding: 1rem 0;
+
+  /* ✅ permet le swipe tactile même si user-select est désactivé globalement */
+  touch-action: pan-x;
 
   &::-webkit-scrollbar {
     display: none;
@@ -82,7 +84,7 @@ export default function ImageCarousel({
     <CarouselWrapper>
       {/* flèche gauche */}
       {!single && (
-        <ArrowButton left onClick={() => scroll(-scrollAmount)}>
+        <ArrowButton $left onClick={() => scroll(-scrollAmount)}>
           <ChevronLeft size={24} />
         </ArrowButton>
       )}

@@ -28,7 +28,8 @@ const HeroContent = styled.div`
 const HeroTitle = styled.h1`
   font-size: clamp(3rem, 6vw, 5rem);
   font-weight: 200;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
+  line-height: 2;
   background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -38,27 +39,8 @@ const HeroTitle = styled.h1`
 const HeroSubtitle = styled.p`
   font-size: clamp(1.1rem, 2vw, 1.3rem);
   color: #999;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   line-height: 1.6;
-`;
-
-const CTAButton = styled(Link)`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 1rem 2rem;
-  background-color: #ffffff;
-  color: #0a0a0a;
-  border-radius: 8px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background-color: #f0f0f0;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1);
-  }
 `;
 
 const AboutSection = styled.section`
@@ -205,11 +187,11 @@ const Home = () => {
 
   // Fallback content if no artist info is found
   const fallbackContent = {
-    heroTitle: "Masterful Artistry",
-    heroSubtitle:
-      "Discover the profound world of contemporary painting through the eyes of a master artist. Each brushstroke tells a story, each canvas holds a universe of emotion and meaning.",
-    shortBio:
-      "With over two decades of artistic exploration, our featured painter has developed a distinctive voice that bridges classical techniques with contemporary vision.",
+    // heroTitle: "Masterful Artistry",
+    // heroSubtitle:
+    //   "Discover the profound world of contemporary painting through the eyes of a master artist. Each brushstroke tells a story, each canvas holds a universe of emotion and meaning.",
+    // shortBio:
+    //   "With over two decades of artistic exploration, our featured painter has developed a distinctive voice that bridges classical techniques with contemporary vision.",
   };
 
   const content = artistInfo || fallbackContent;
@@ -222,16 +204,13 @@ const Home = () => {
           <HeroSubtitle>
             {content.bio || fallbackContent.heroSubtitle}
           </HeroSubtitle>
-          <CTAButton to="/galerie">
-            Explorez la Galerie <ArrowRight size={20} />
-          </CTAButton>
         </HeroContent>
       </HeroSection>
 
       <AboutSection>
         <AboutContent>
           <AboutText>
-            <h2>About {content.name || "the Artist"}</h2>
+            {/* <h2>{content.name || "the Artist"}</h2> */}
             <p>{content.shortBio || fallbackContent.shortBio}</p>
           </AboutText>
           {content.profileImage ? (

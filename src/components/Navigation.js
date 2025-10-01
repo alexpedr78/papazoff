@@ -153,10 +153,10 @@ const Navigation = () => {
   }, []);
 
   const navItems = [
-    { path: "/", label: "Accueil" },
+    // { path: "/", label: "Accueil" },
     { path: "/Galerie", label: "Galerie" },
     { path: "/expositions", label: "Expositions" },
-    { path: "/manifeste", label: "Manifeste" },
+    { path: "/manifeste", label: "A propos" },
   ];
 
   const toggleMobileMenu = () => {
