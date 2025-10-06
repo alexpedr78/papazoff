@@ -101,8 +101,9 @@ export default function Series() {
               style={{ textDecoration: "none" }}
             >
               <h3>{s.title}</h3>
+
+              {s.description && <p>{s.description}</p>}
             </Link>
-            {s.description && <p>{s.description}</p>}
             {s.paintings?.length > 0 && (
               <ImageCarousel
                 images={s.paintings

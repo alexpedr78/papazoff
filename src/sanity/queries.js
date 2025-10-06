@@ -221,7 +221,10 @@ export const submitComment = async (commentData) => {
 export const getPapazoffInfo = async () => {
   const query = `*[_type == "papazoffInfo"][0]{
     name,
+    "profileImageUrl": profileImage.asset->url,
 
+    // --- PRESS BOOK ---
+    "pressBookProfileImageUrl": pressBookProfileImage.asset->url,
     pressBook[]{
       title,
       description,
@@ -229,17 +232,23 @@ export const getPapazoffInfo = async () => {
       "fileName": file.asset->originalFilename,
       videoUrl,
       "videoFileUrl": videoFile.asset->url,
-      "videoFileName": videoFile.asset->originalFilename
+      "videoFileName": videoFile.asset->originalFilename,
+      images[]{ "url": asset->url }
     },
 
+    // --- FILMS ---
+    "filmsProfileImageUrl": filmsProfileImage.asset->url,
     films[]{
       title,
       description,
       videoUrl,
       "fileUrl": file.asset->url,
-      "fileName": file.asset->originalFilename
+      "fileName": file.asset->originalFilename,
+      images[]{ "url": asset->url }
     },
 
+    // --- MANIFESTE ---
+    "manifesteProfileImageUrl": manifesteProfileImage.asset->url,
     manifeste[]{
       title,
       description,
@@ -247,9 +256,12 @@ export const getPapazoffInfo = async () => {
       "fileName": document.asset->originalFilename,
       videoUrl,
       "videoFileUrl": videoFile.asset->url,
-      "videoFileName": videoFile.asset->originalFilename
+      "videoFileName": videoFile.asset->originalFilename,
+      images[]{ "url": asset->url }
     },
 
+    // --- CONFÉRENCES ---
+    "conferencesProfileImageUrl": conferencesProfileImage.asset->url,
     conferences[]{
       title,
       description,
@@ -259,9 +271,12 @@ export const getPapazoffInfo = async () => {
       "docName": document.asset->originalFilename,
       videoUrl,
       "videoFileUrl": videoFile.asset->url,
-      "videoFileName": videoFile.asset->originalFilename
+      "videoFileName": videoFile.asset->originalFilename,
+      images[]{ "url": asset->url }
     },
 
+    // --- POÉSIE ---
+    "poesieProfileImageUrl": poesieProfileImage.asset->url,
     poesie[]{
       title,
       description,
@@ -269,7 +284,8 @@ export const getPapazoffInfo = async () => {
       "fileName": file.asset->originalFilename,
       videoUrl,
       "videoFileUrl": videoFile.asset->url,
-      "videoFileName": videoFile.asset->originalFilename
+      "videoFileName": videoFile.asset->originalFilename,
+      images[]{ "url": asset->url }
     }
   }`;
 
