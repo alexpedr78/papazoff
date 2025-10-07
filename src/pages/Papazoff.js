@@ -10,24 +10,24 @@ const Container = styled.div`
   color: #fff;
 `;
 
-const Header = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-  justify-content: center;
-  text-align: center;
-  margin-bottom: 3rem;
-`;
+// const Header = styled.div`
+//   display: flex;
+//   align-items: center;
+//   gap: 2rem;
+//   flex-wrap: wrap;
+//   justify-content: center;
+//   text-align: center;
+//   margin-bottom: 3rem;
+// `;
 
-const Title = styled.h1`
-  font-size: clamp(2.5rem, 5vw, 3.8rem);
-  font-weight: 300;
-  line-height: 1.4;
-  background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-`;
+// const Title = styled.h1`
+//   font-size: clamp(2.5rem, 5vw, 3.8rem);
+//   font-weight: 300;
+//   line-height: 1.4;
+//   background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
+//   -webkit-background-clip: text;
+//   -webkit-text-fill-color: transparent;
+// `;
 
 const SectionsGrid = styled.div`
   display: grid;
@@ -91,14 +91,14 @@ const ViewMore = styled.div`
 
 export default function Papazoff() {
   const [data, setData] = useState(null);
-  const [artist, setArtist] = useState(null);
+  // const [artist, setArtist] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     Promise.all([getPapazoffInfo(), getArtistInfo()])
       .then(([papazoff, artistInfo]) => {
         setData(papazoff);
-        setArtist(artistInfo);
+        // setArtist(artistInfo);
       })
       .finally(() => setLoading(false));
   }, []);
@@ -156,11 +156,11 @@ export default function Papazoff() {
 
   return (
     <Container className="fade-in">
-      <Header>
+      {/* <Header>
         <div>
           <Title>{artist?.name || data?.name || "Georges Papazoff"}</Title>
         </div>
-      </Header>
+      </Header> */}
 
       <SectionsGrid>
         {sections.map((section) => (
