@@ -1,6 +1,5 @@
 import { client } from "./client";
 
-// Fetch artist information
 export const getArtistInfo = async () => {
   const query = `*[_type == "artistInfo"][0]{
     name,
@@ -25,7 +24,6 @@ export const getArtistInfo = async () => {
   }
 };
 
-// Fetch all paintings
 export const getPaintings = async () => {
   const query = `*[_type == "painting"] | order(_createdAt desc){
     _id,
@@ -48,7 +46,6 @@ export const getPaintings = async () => {
   }
 };
 
-// Fetch featured paintings
 export const getFeaturedPaintings = async () => {
   const query = `*[_type == "painting" && available == true] | order(_createdAt desc){
     _id,
@@ -71,8 +68,6 @@ export const getFeaturedPaintings = async () => {
   }
 };
 
-// Fetch exhibitions
-// Récupère les expos dont status === 'current'
 export const getCurrentExhibitions = async () => {
   const query = `
     *[_type == "exhibition" && status == "current"]
@@ -89,12 +84,10 @@ export const getCurrentExhibitions = async () => {
           title,
           mainImage
         },
-        // documents PDF, PPT, Word…
         documents[]{
           "url": asset->url,
           "fileName": asset->originalFilename
         },
-        // vidéos associées
         videos[]{
           title,
           description,
@@ -110,7 +103,6 @@ export const getCurrentExhibitions = async () => {
     return [];
   }
 };
-//FETCH LES EXPOSITIONS A VENIR
 export const getUpcomingExhibitions = async () => {
   const query = `
     *[_type == "exhibition" && status == "upcoming"]
@@ -146,7 +138,6 @@ export const getUpcomingExhibitions = async () => {
     return [];
   }
 };
-// fetch les exposititions à venir
 export const getPastExhibitions = async () => {
   const query = `
     *[_type == "exhibition" && status == "past"]
@@ -183,7 +174,6 @@ export const getPastExhibitions = async () => {
   }
 };
 
-// Fetch comments for a given content
 export const getComments = async (contentId, contentType) => {
   const query = `*[_type == "comment" &&  contentType == $contentType && contentId == $contentId] | order(_createdAt desc){
     _id,
@@ -203,12 +193,10 @@ export const getComments = async (contentId, contentType) => {
   }
 };
 
-// Submit a new comment
 export const submitComment = async (commentData) => {
   try {
     const result = await client.create({
       _type: "comment",
-      // approved: false, // New comments are pending approval
       ...commentData,
       createdAt: new Date().toISOString(),
     });
@@ -222,7 +210,7 @@ export const getPapazoffInfo = async () => {
   const query = `*[_type == "papazoffInfo"][0]{
     name,
 
-    // ✅ Images de profil globales
+    
     "profileImageUrl": profileImage.asset->url,
     "pressBookProfileImageUrl": pressBookProfileImage.asset->url,
     "filmsProfileImageUrl": filmsProfileImage.asset->url,
@@ -230,7 +218,7 @@ export const getPapazoffInfo = async () => {
     "conferencesProfileImageUrl": conferencesProfileImage.asset->url,
     "poesieProfileImageUrl": poesieProfileImage.asset->url,
 
-    // ✅ Sections
+  
     pressBook[] {
       title,
       description,
@@ -305,7 +293,6 @@ export const getPapazoffInfo = async () => {
   }
 };
 
-// Fetch studio photos
 export const getStudioPhotos = async () => {
   const query = `*[_type == "studioPhoto"] | order(_createdAt desc){
     _id,
@@ -337,19 +324,19 @@ export const getToilesChezLesGens = async () => {
     return [];
   }
 };
-// Fetch all series
+
 export const getSeries = async () => {
   const query = `
     *[_type == "serie"] | order(_createdAt desc){
       _id,
       title,
       description,
-      coverImage,                // votre image de couverture
+      coverImage,               
       "paintings": paintings[]->{  
         _id,
         title,
-        mainImage,               // champ image principal
-        gallery                  // tableau d’images
+        mainImage,              
+        gallery                  
       }
     }
   `;
@@ -360,7 +347,7 @@ export const getSeries = async () => {
     return [];
   }
 };
-// fetch les séries par titre
+
 export const getSerieByTitle = async (title) => {
   const query = `*[_type == "serie" && title == $title][0]{
     _id,
@@ -379,7 +366,7 @@ export const getSerieByTitle = async (title) => {
   }`;
   return await client.fetch(query, { title });
 };
-// fetch les expositions par titre
+
 export const getExhibitionByTitle = async (title) => {
   const query = `*[_type == "exhibition" && title == $title][0]{
     _id,
@@ -388,29 +375,26 @@ export const getExhibitionByTitle = async (title) => {
     startDate,
     endDate,
     description,
-    // Image principale
     "image": image.asset->url,
     
-    // Tableaux présentés
+    
     featuredPaintings[]->{
       _id,
       title,
       "mainImage": mainImage.asset->url
     },
     
-    // Galerie
     "gallery": gallery[]{
       "url": asset->url,
       "alt": asset->altText
     },
     
-    // Documents
     "documents": documents[]{
       "url": asset->url,
       "fileName": asset->originalFilename
     },
     
-    // Vidéos
+   
     "videos": videos[]{
       title,
       description,

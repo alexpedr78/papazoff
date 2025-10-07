@@ -1,4 +1,3 @@
-// src/pages/Atelier.js
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getStudioPhotos } from "../sanity/queries";

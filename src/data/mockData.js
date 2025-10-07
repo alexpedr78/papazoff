@@ -1,79 +1,82 @@
-// Mock data for the painter portfolio
-// This will be replaced with Sanity CMS data later
-
 export const paintings = [
   {
     id: 1,
     title: "Ethereal Sunset",
-    description: "A captivating study of light and shadow as day transitions to night, exploring the delicate balance between warm and cool tones.",
-    size: "24\" x 36\" (61cm x 91cm)",
+    description:
+      "A captivating study of light and shadow as day transitions to night, exploring the delicate balance between warm and cool tones.",
+    size: '24" x 36" (61cm x 91cm)',
     material: "Oil on Canvas",
     price: "$2,400",
     date: "2024",
     availability: "Available",
-    imageUrl: null, // Placeholder - will be replaced with actual images
-    tags: ["landscape", "sunset", "oil painting"]
+    imageUrl: null,
+    tags: ["landscape", "sunset", "oil painting"],
   },
   {
     id: 2,
     title: "Urban Solitude",
-    description: "An intimate portrayal of modern city life, capturing the quiet moments of reflection amidst urban chaos.",
-    size: "18\" x 24\" (46cm x 61cm)",
+    description:
+      "An intimate portrayal of modern city life, capturing the quiet moments of reflection amidst urban chaos.",
+    size: '18" x 24" (46cm x 61cm)',
     material: "Acrylic on Canvas",
     price: "$1,800",
     date: "2023",
     availability: "Sold",
     imageUrl: null,
-    tags: ["urban", "cityscape", "contemporary"]
+    tags: ["urban", "cityscape", "contemporary"],
   },
   {
     id: 3,
     title: "Memories in Blue",
-    description: "A deeply personal work exploring themes of nostalgia and time, rendered in various shades of blue with delicate brushwork.",
-    size: "30\" x 40\" (76cm x 102cm)",
+    description:
+      "A deeply personal work exploring themes of nostalgia and time, rendered in various shades of blue with delicate brushwork.",
+    size: '30" x 40" (76cm x 102cm)',
     material: "Oil on Canvas",
     price: "$3,200",
     date: "2024",
     availability: "Available",
     imageUrl: null,
-    tags: ["abstract", "blue", "emotional"]
+    tags: ["abstract", "blue", "emotional"],
   },
   {
     id: 4,
     title: "Forest Whispers",
-    description: "Nature's quiet conversation captured in rich greens and earth tones, inviting viewers into a serene woodland scene.",
-    size: "20\" x 30\" (51cm x 76cm)",
+    description:
+      "Nature's quiet conversation captured in rich greens and earth tones, inviting viewers into a serene woodland scene.",
+    size: '20" x 30" (51cm x 76cm)',
     material: "Oil on Canvas",
     price: "$2,100",
     date: "2023",
     availability: "Available",
     imageUrl: null,
-    tags: ["nature", "forest", "landscape"]
+    tags: ["nature", "forest", "landscape"],
   },
   {
     id: 5,
     title: "Portrait of Time",
-    description: "A contemplative piece examining the passage of time through layered textures and muted color palette.",
-    size: "16\" x 20\" (41cm x 51cm)",
+    description:
+      "A contemplative piece examining the passage of time through layered textures and muted color palette.",
+    size: '16" x 20" (41cm x 51cm)',
     material: "Mixed Media on Canvas",
     price: "$1,500",
     date: "2022",
     availability: "Available",
     imageUrl: null,
-    tags: ["portrait", "abstract", "time"]
+    tags: ["portrait", "abstract", "time"],
   },
   {
     id: 6,
     title: "Golden Hour Dreams",
-    description: "Capturing the magical quality of golden hour light with warm yellows and oranges dancing across the canvas.",
-    size: "28\" x 42\" (71cm x 107cm)",
+    description:
+      "Capturing the magical quality of golden hour light with warm yellows and oranges dancing across the canvas.",
+    size: '28" x 42" (71cm x 107cm)',
     material: "Oil on Canvas",
     price: "$2,800",
     date: "2024",
     availability: "Reserved",
     imageUrl: null,
-    tags: ["landscape", "golden hour", "warm tones"]
-  }
+    tags: ["landscape", "golden hour", "warm tones"],
+  },
 ];
 
 export const exhibitions = [
@@ -83,8 +86,9 @@ export const exhibitions = [
     location: "Modern Art Gallery, New York",
     date: "March 15 - April 30, 2024",
     type: "upcoming",
-    description: "A curated exhibition featuring contemporary painters exploring themes of modern life and digital age consciousness.",
-    status: "Upcoming"
+    description:
+      "A curated exhibition featuring contemporary painters exploring themes of modern life and digital age consciousness.",
+    status: "Upcoming",
   },
   {
     id: 2,
@@ -92,8 +96,9 @@ export const exhibitions = [
     location: "City Arts Center, San Francisco",
     date: "January 10 - February 25, 2024",
     type: "current",
-    description: "An intimate showcase of emotional landscapes and personal narratives told through paint and canvas.",
-    status: "Current"
+    description:
+      "An intimate showcase of emotional landscapes and personal narratives told through paint and canvas.",
+    status: "Current",
   },
   {
     id: 3,
@@ -101,8 +106,9 @@ export const exhibitions = [
     location: "Heritage Museum, Chicago",
     date: "September 5 - October 20, 2023",
     type: "past",
-    description: "A comprehensive retrospective featuring key works from the past five years of artistic development.",
-    status: "Past"
+    description:
+      "A comprehensive retrospective featuring key works from the past five years of artistic development.",
+    status: "Past",
   },
   {
     id: 4,
@@ -110,9 +116,10 @@ export const exhibitions = [
     location: "Riverside Gallery, Portland",
     date: "June 12 - July 30, 2023",
     type: "past",
-    description: "Exploring the relationship between natural beauty and artistic interpretation through landscape paintings.",
-    status: "Past"
-  }
+    description:
+      "Exploring the relationship between natural beauty and artistic interpretation through landscape paintings.",
+    status: "Past",
+  },
 ];
 
 export const artistInfo = {
@@ -120,8 +127,9 @@ export const artistInfo = {
   bio: "With over two decades of artistic exploration, our featured painter has developed a distinctive voice that bridges classical techniques with contemporary vision. Each work emerges from a deep understanding of color, form, and the human experience.",
   manifesto: {
     title: "The Language of Paint",
-    excerpt: "Art is not merely decoration—it is a language that speaks to the soul, a bridge between the visible and invisible worlds.",
-    videoUrl: null, // Placeholder for 24-minute video
+    excerpt:
+      "Art is not merely decoration—it is a language that speaks to the soul, a bridge between the visible and invisible worlds.",
+    videoUrl: null,
     fullText: `
       Art is not merely decoration—it is a language that speaks to the soul, a bridge between the visible and invisible worlds. In every brushstroke, I seek to capture not just what the eye sees, but what the heart feels.
 
@@ -136,18 +144,8 @@ export const artistInfo = {
       In my work, I strive to honor the tradition of painting while speaking to contemporary concerns. Environmental awareness, human isolation, the search for meaning in an increasingly complex world—these themes emerge naturally from the act of observing and responding to our current moment in history.
 
       Ultimately, I paint because I must. The compulsion to translate experience into visual form drives me forward, canvas after canvas, seeking always to refine my ability to communicate through this ancient and essential language of paint.
-    `
-  }
+    `,
+  },
 };
 
-export const comments = [
-  // Comments will be structured as:
-  // {
-  //   id: number,
-  //   paintingId: number, // or exhibitionId
-  //   type: 'painting' | 'exhibition',
-  //   author: string,
-  //   content: string,
-  //   date: string,
-  // }
-];
+export const comments = [];

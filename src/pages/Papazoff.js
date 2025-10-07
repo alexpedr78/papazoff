@@ -1,4 +1,3 @@
-// src/pages/Papazoff.js
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -165,14 +164,14 @@ export default function Papazoff() {
 
       <SectionsGrid>
         {sections.map((section) => (
-          <Card key={section.key} to={section.link}>
-            <CardImage img={section.img} />
-            <CardContent>
-              <h3>{section.title}</h3>
-              <p>{section.desc.slice(0, 120)}...</p>
-              <ViewMore>→ Voir la section</ViewMore>
-            </CardContent>
-          </Card>
+          <ViewMore>
+            <Card key={section.key} to={section.link}>
+              <CardImage img={section.img} />
+              <CardContent>
+                <h3>{section.title}</h3>
+              </CardContent>
+            </Card>
+          </ViewMore>
         ))}
       </SectionsGrid>
     </Container>

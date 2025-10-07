@@ -1,4 +1,3 @@
-// src/components/CommentSection.js
 import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
 import { getComments, submitComment } from "../sanity/queries";
@@ -94,7 +93,6 @@ export default function CommentSection({ contentId, contentType }) {
       });
       setAuthor("");
       setCommentText("");
-      // Recharge immédiatement les commentaires
       fetchComments();
     } catch (error) {
       console.error("Error submitting comment:", error);

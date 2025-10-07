@@ -1,4 +1,3 @@
-// src/components/ImageCarousel.js
 import React, { useRef } from "react";
 import styled from "styled-components";
 import { ChevronLeft, ChevronRight } from "lucide-react";

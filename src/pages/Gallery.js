@@ -5,7 +5,6 @@ import { urlFor } from "../sanity/client";
 
 import {
   getSeries,
-  // getPaintings,
   getStudioPhotos,
   getToilesChezLesGens,
 } from "../sanity/queries";

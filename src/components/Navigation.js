@@ -153,7 +153,6 @@ const Navigation = () => {
   }, []);
 
   const navItems = [
-    // { path: "/", label: "Accueil" },
     { path: "/Galerie", label: "Galerie" },
     { path: "/expositions", label: "Expositions" },
     { path: "/manifeste", label: "A propos" },

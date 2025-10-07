@@ -125,25 +125,14 @@ const Home = () => {
     );
   }
 
-  // Fallback content if no artist info is found
-  const fallbackContent = {
-    // heroTitle: "Masterful Artistry",
-    // heroSubtitle:
-    //   "Discover the profound world of contemporary painting through the eyes of a master artist. Each brushstroke tells a story, each canvas holds a universe of emotion and meaning.",
-    // shortBio:
-    //   "With over two decades of artistic exploration, our featured painter has developed a distinctive voice that bridges classical techniques with contemporary vision.",
-  };
-
-  const content = artistInfo || fallbackContent;
+  const content = artistInfo || null;
 
   return (
     <HomeContainer className="fade-in">
       <HeroSection>
         <HeroContent>
-          <HeroTitle>{content.name || fallbackContent.heroTitle}</HeroTitle>
-          <HeroSubtitle>
-            {content.bio || fallbackContent.heroSubtitle}
-          </HeroSubtitle>
+          <HeroTitle>{content.name || null}</HeroTitle>
+          <HeroSubtitle>{content.bio || null}</HeroSubtitle>
         </HeroContent>
       </HeroSection>
 
@@ -151,7 +140,7 @@ const Home = () => {
         <AboutContent>
           <AboutText>
             {/* <h2>{content.name || "the Artist"}</h2> */}
-            <p>{content.shortBio || fallbackContent.shortBio}</p>
+            <p>{content.shortBio || null}</p>
           </AboutText>
           {content.profileImage ? (
             <img
