@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { ArrowRight } from "lucide-react";
 import { getArtistInfo } from "../sanity/queries";
 import { urlFor } from "../sanity/client";
 
@@ -96,64 +94,6 @@ const PlaceholderImage = styled.div`
   }
 `;
 
-const FeaturesSection = styled.section`
-  padding: 6rem 0;
-  background-color: #0f0f0f;
-
-  @media (max-width: 768px) {
-    padding: 4rem 0;
-  }
-`;
-
-const FeaturesGrid = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-`;
-
-const FeatureCard = styled.div`
-  background-color: #1a1a1a;
-  border-radius: 12px;
-  padding: 2rem;
-  border: 1px solid #333;
-  transition: all 0.3s ease;
-
-  &:hover {
-    border-color: #555;
-    transform: translateY(-4px);
-  }
-
-  .icon {
-    margin-bottom: 1rem;
-    color: #ffffff;
-  }
-
-  h3 {
-    margin-bottom: 1rem;
-    color: #ffffff;
-  }
-
-  p {
-    margin-bottom: 1.5rem;
-  }
-`;
-
-const FeatureLink = styled(Link)`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #ffffff;
-  font-weight: 500;
-  transition: opacity 0.2s ease;
-
-  &:hover {
-    opacity: 0.8;
-  }
-`;
-
 const Home = () => {
   const [artistInfo, setArtistInfo] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -229,43 +169,8 @@ const Home = () => {
           )}
         </AboutContent>
       </AboutSection>
-
-      <FeaturesSection>
-        <FeaturesGrid>
-          <FeatureCard>
-            {/* <div className="icon">
-              <Palette size={32} />
-            </div> */}
-            <h3>Œuvres</h3>
-            <p>Découvrez une sélection de toiles, classées par séries.</p>
-            <FeatureLink to="/galerie">
-              Voir la Gallerie <ArrowRight size={16} />
-            </FeatureLink>
-          </FeatureCard>
-
-          <FeatureCard>
-            {/* <div className="icon">
-              <Calendar size={32} />
-            </div> */}
-            <h3>Expositions</h3>
-            <p>Consultez les expositions passées, en cours ou à venir.</p>
-            <FeatureLink to="/expositions">
-              Voir les Expositions <ArrowRight size={16} />
-            </FeatureLink>
-          </FeatureCard>
-
-          <FeatureCard>
-            {/* <div className="icon">
-              <FileText size={32} />
-            </div> */}
-            <h3>Manifeste</h3>
-            <p>Accédez aux documents, conférences et films</p>
-            <FeatureLink to="/manifeste">
-              Accéder au Manifeste <ArrowRight size={16} />
-            </FeatureLink>
-          </FeatureCard>
-        </FeaturesGrid>
-      </FeaturesSection>
+      {/* 
+      <FeaturesSection></FeaturesSection> */}
     </HomeContainer>
   );
 };
