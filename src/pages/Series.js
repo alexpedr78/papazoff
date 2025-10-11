@@ -1,3 +1,4 @@
+// src/pages/Series.js
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -34,33 +35,81 @@ const Card = styled.div`
   border: 1px solid #222;
   border-radius: 12px;
   overflow: hidden;
+  color: inherit;
+  text-decoration: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  transition: border-color 0.2s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  cursor: pointer;
 
   &:hover {
+    transform: translateY(-5px);
     border-color: #444;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.5);
   }
+`;
+
+const CardClickableArea = styled(Link)`
+  display: block;
+  color: inherit;
+  text-decoration: none;
+`;
+
+const CoverImage = styled.img`
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-bottom: 1px solid #222;
+  transition: transform 0.4s ease;
+
+  ${Card}:hover & {
+    transform: scale(1.03);
+  }
+`;
+
+const CardContent = styled.div`
+  padding: 1.5rem;
 
   h3 {
-    margin: 1.2rem 1.5rem 0.5rem;
+    margin-bottom: 0.8rem;
     color: #fff;
     font-size: 1.4rem;
     font-weight: 500;
   }
 
   p {
-    margin: 0 1.5rem 1.5rem;
     color: #ccc;
     font-size: 0.95rem;
     line-height: 1.5;
   }
 `;
 
-const CoverImage = styled.img`
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  border-bottom: 1px solid #222;
+const ViewButton = styled.div`
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid #333;
+  border-radius: 8px;
+  color: #ecf2f7;
+  font-weight: 600;
+  font-size: 0.9rem;
+  background: #1a1a1a;
+  transition: all 0.2s ease;
+
+  ${Card}:hover & {
+    background: #dee7ec;
+    color: #0a0a0a;
+    border-color: #aec6d5;
+  }
+`;
+
+// 🧠 Le conteneur du carrousel neutralise le clic de la carte
+const CarouselWrapper = styled.div`
+  pointer-events: none; /* bloque les clics sur le parent */
+  position: relative;
+
+  .carousel-interactive {
+    pointer-events: all; /* réactive les clics internes (flèches, drag) */
+  }
 `;
 
 export default function Series() {
@@ -89,27 +138,33 @@ export default function Series() {
       <List>
         {series.map((s) => (
           <Card key={s._id}>
-            {s.coverImage?.asset?._ref && (
-              <CoverImage
-                src={urlFor(s.coverImage).width(1000).url()}
-                alt={s.title}
-              />
-            )}
-            <Link
-              to={`/séries/${encodeURIComponent(s.title)}`}
-              style={{ textDecoration: "none" }}
-            >
-              <h3>{s.title}</h3>
+            <CardClickableArea to={`/séries/${encodeURIComponent(s.title)}`}>
+              {s.coverImage?.asset?._ref && (
+                <CoverImage
+                  src={urlFor(s.coverImage).width(1000).url()}
+                  alt={s.title}
+                />
+              )}
 
-              {s.description && <p>{s.description}</p>}
-            </Link>
+              <CardContent>
+                <h3>{s.title}</h3>
+                {s.description && <p>{s.description}</p>}
+                <ViewButton>→ Voir la série</ViewButton>
+              </CardContent>
+            </CardClickableArea>
+
+            {/* ✅ Carrousel cliquable indépendamment */}
             {s.paintings?.length > 0 && (
-              <ImageCarousel
-                images={s.paintings
-                  .flatMap((p) => [p.mainImage, ...(p.gallery || [])])
-                  .filter((img) => img?.asset?._ref)
-                  .map((img) => urlFor(img).width(1200).url())}
-              />
+              <CarouselWrapper>
+                <div className="carousel-interactive">
+                  <ImageCarousel
+                    images={s.paintings
+                      .flatMap((p) => [p.mainImage, ...(p.gallery || [])])
+                      .filter((img) => img?.asset?._ref)
+                      .map((img) => urlFor(img).width(1200).url())}
+                  />
+                </div>
+              </CarouselWrapper>
             )}
           </Card>
         ))}

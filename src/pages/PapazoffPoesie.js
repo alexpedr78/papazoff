@@ -86,7 +86,7 @@ export default function PapazoffPoesie() {
             {/* Fichier (PDF ou audio) */}
             {p.fileUrl && (
               <p>
-                📄🎵{" "}
+                📄{" "}
                 <a
                   href={p.fileUrl}
                   target="_blank"

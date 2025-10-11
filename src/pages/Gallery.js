@@ -28,12 +28,6 @@ const SectionTitle = styled.h2`
   text-align: center;
 `;
 
-const Subtitle = styled.p`
-  text-align: center;
-  color: #aaa;
-  margin-bottom: 2rem;
-`;
-
 const ViewAllButton = styled.button`
   display: block;
   margin: 1rem auto 0 auto;
@@ -86,7 +80,7 @@ export default function Gallery() {
       {/* Séries */}
       <Section>
         <SectionTitle>Séries</SectionTitle>
-        <Subtitle>Découvrez quelques aperçus des séries</Subtitle>
+
         <ImageCarousel
           images={series
             .map((s) => {
@@ -104,7 +98,7 @@ export default function Gallery() {
       {/* Photos à l'Atelier */}
       <Section>
         <SectionTitle>Photos à l’Atelier</SectionTitle>
-        <Subtitle>Un aperçu de l'atelier</Subtitle>
+
         <ImageCarousel
           images={studioPhotos.map((photo) => photo.imageUrl).filter(Boolean)}
         />
@@ -116,7 +110,7 @@ export default function Gallery() {
       {/* Toiles chez les Gens */}
       <Section>
         <SectionTitle>Toiles chez les Gens</SectionTitle>
-        <Subtitle>Quelques photos chez les collectionneurs</Subtitle>
+
         <ImageCarousel
           images={toiles
             .map((lieu) => (lieu.mainPhotoUrl ? lieu.mainPhotoUrl : null))

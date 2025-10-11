@@ -119,6 +119,7 @@ const GlobalStyle = createGlobalStyle`
     line-height: 1.6;
     margin-bottom: 1rem;
     color: #cccccc;
+    white-space: pre-line;
   }
 
   /* Responsive grid utilities */
