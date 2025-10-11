@@ -6,7 +6,7 @@ export const client = createClient({
   dataset: "studio",
   token:
     "sk3ZwhH5ANe0gNSSjDZF0cWv1ouVUYcAPKY1dpBa0YYlklip9eY58hrAevcUxOgTj63l3DDPI6UCaDwEj8qa4tdhHDqBvFvnvLzHSwd15ANe4ZEcGMfoq52Ug0nFLMqQ8er4l4Ff7aAQFcCQ5Az7wVUTs7283d5pnLFVq1UQ41xZ1OKEC1kq",
-  useCdn: false,
+  useCdn: true,
   apiVersion: "2024-01-01",
 });
 
