@@ -219,9 +219,6 @@ export default function ExhibitionDetail() {
         </Section>
       )}
 
-      {/* Vidéos */}
-      {/* Vidéos */}
-      {/* Vidéos */}
       {ex.videos ? (
         <Section>
           <SectionTitle>Vidéos</SectionTitle>
@@ -231,21 +228,36 @@ export default function ExhibitionDetail() {
                 {vid.title && <strong>{vid.title}</strong>}
                 {vid.description && <p>{vid.description}</p>}
 
-                {vid.videoUrl ? (
-                  <div style={{ marginBottom: "1rem" }}>
-                    <iframe
-                      src={vid.videoUrl}
-                      title={vid.title || `video-${i}`}
-                      width="100%"
-                      height="400"
-                      allowFullScreen
-                      style={{ border: "none", borderRadius: "8px" }}
-                    />
-                  </div>
-                ) : vid.file?.asset?.url ? (
-                  <video controls src={vid.file.asset.url}>
+                {vid.url ? (
+                  <video
+                    controls
+                    playsInline
+                    preload="metadata"
+                    src={vid.url}
+                    style={{
+                      width: "100%",
+                      aspectRatio: "16 / 9",
+                      maxHeight: "70vh",
+                      borderRadius: "8px",
+                      background: "#000",
+                      objectFit: "cover",
+                    }}
+                  >
                     Votre navigateur ne supporte pas la vidéo.
                   </video>
+                ) : vid.videoUrl ? (
+                  <iframe
+                    src={vid.videoUrl}
+                    title={vid.title || `video-${i}`}
+                    width="100%"
+                    height="400"
+                    allowFullScreen
+                    style={{
+                      border: "none",
+                      borderRadius: "8px",
+                      background: "#000",
+                    }}
+                  />
                 ) : (
                   <p>Pas de vidéo disponible.</p>
                 )}

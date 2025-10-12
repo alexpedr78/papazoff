@@ -2,6 +2,7 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
   * {
+text-align: right;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -115,6 +116,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   p {
+      text-align: right;
     font-size: clamp(1rem, 1.5vw, 1.1rem);
     line-height: 1.6;
     margin-bottom: 1rem;

@@ -136,7 +136,7 @@ const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [artistName, setArtistName] = useState("Artist Portfolio");
   const location = useLocation();
-
+  const isHome = location.pathname === "/" || location.pathname === "/accueil";
   useEffect(() => {
     const fetchArtistName = async () => {
       try {
@@ -170,7 +170,13 @@ const Navigation = () => {
     <>
       <Nav>
         <NavContainer>
-          <Logo to="/">{artistName}</Logo>
+          <Logo to="/">
+            {!isHome && (
+              <Link to="/" className="nav-link">
+                {artistName}
+              </Link>
+            )}
+          </Logo>
 
           <NavLinks>
             {navItems.map((item) => (

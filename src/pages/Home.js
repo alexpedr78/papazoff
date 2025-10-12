@@ -54,6 +54,7 @@ const AboutContent = styled.div`
   margin: 0 auto;
   padding: 0 2rem;
   display: grid;
+
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
   align-items: center;
@@ -79,7 +80,8 @@ const AboutText = styled.div`
 `;
 
 const PlaceholderImage = styled.div`
-  height: 400px;
+  height: 100%;
+  object-fit: cover;
   background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
   border-radius: 12px;
   display: flex;

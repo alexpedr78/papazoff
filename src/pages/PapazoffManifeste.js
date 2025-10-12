@@ -86,16 +86,11 @@ export default function PapazoffManifeste() {
             {m.fileUrl && (
               <p>
                 📄{" "}
-                <a
-                  href={m.fileUrl}
-                  target="_blank"
-                  rel="noopener noreferrer nofollow"
-                >
-                  {m.fileName || "Télécharger le document"}
+                <a href={m.fileUrl} target="_blank" rel="noopener noreferrer">
+                  {m.fileName || "voir le document"}
                 </a>
               </p>
             )}
-
             {/* Vidéos */}
             {m.videoUrl && (
               <div style={{ margin: ".75rem 0" }}>

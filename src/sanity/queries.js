@@ -398,8 +398,11 @@ export const getExhibitionByTitle = async (title) => {
     "videos": videos[]{
       title,
       description,
-      "url": file.asset->url
-    }
+      "url": file.asset->url,
+  videoUrl,
+}
+
+    
   }`;
 
   try {
