@@ -116,7 +116,7 @@ text-align: justify;
   }
 
   p {
-      text-align: right;
+      text-align: justify;
     font-size: clamp(1rem, 1.5vw, 1.1rem);
     line-height: 1.6;
     margin-bottom: 1rem;
