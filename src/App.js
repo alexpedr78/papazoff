@@ -17,7 +17,7 @@ import PapazoffFilms from "./pages/PapazoffFilms";
 import PapazoffManifeste from "./pages/PapazoffManifeste";
 import PapazoffConferences from "./pages/PapazoffConferences";
 import PapazoffPoesie from "./pages/PapazoffPoesie";
-
+import Contact from "./pages/Contact";
 const AppContainer = styled.div`
   min-height: 100vh;
   background-color: #0a0a0a;
@@ -57,10 +57,11 @@ function App() {
             <Route path="/galerie" element={<Gallery />} />
             <Route path="/expositions" element={<Exhibitions />} />
             <Route path="/expositions/:title" element={<ExhibitionDetail />} />
-            <Route path="/manifeste" element={<Papazoff />} />
+            <Route path="/a-propos" element={<Papazoff />} />
             <Route path="/papazoff/pressbook" element={<PapazoffPressBook />} />
             <Route path="/papazoff/films" element={<PapazoffFilms />} />
             <Route path="/papazoff/manifeste" element={<PapazoffManifeste />} />
+            <Route path="/papazoff/contact" element={<Contact />} />
             <Route
               path="/papazoff/conferences"
               element={<PapazoffConferences />}

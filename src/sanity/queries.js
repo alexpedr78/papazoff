@@ -412,3 +412,19 @@ export const getExhibitionByTitle = async (title) => {
     return null;
   }
 };
+export const getContactInfo = async () => {
+  const query = `*[_type == "contactInfo"][0]{
+    _id,
+    "introImageUrl": introImage.asset->url,
+    "detailImageUrl": detailImage.asset->url,
+    text,
+    email,
+    socialLinks
+  }`;
+  try {
+    return await client.fetch(query);
+  } catch (err) {
+    console.error("Error fetching contact info:", err);
+    return null;
+  }
+};

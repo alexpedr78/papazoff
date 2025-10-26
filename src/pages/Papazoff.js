@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { getPapazoffInfo, getArtistInfo } from "../sanity/queries";
+import { getPapazoffInfo, getContactInfo } from "../sanity/queries";
 
 const Container = styled.div`
   padding: 3rem 1rem;
@@ -9,25 +9,6 @@ const Container = styled.div`
   margin: auto;
   color: #fff;
 `;
-
-// const Header = styled.div`
-//   display: flex;
-//   align-items: center;
-//   gap: 2rem;
-//   flex-wrap: wrap;
-//   justify-content: center;
-//   text-align: center;
-//   margin-bottom: 3rem;
-// `;
-
-// const Title = styled.h1`
-//   font-size: clamp(2.5rem, 5vw, 3.8rem);
-//   font-weight: 300;
-//   line-height: 1.4;
-//   background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
-//   -webkit-background-clip: text;
-//   -webkit-text-fill-color: transparent;
-// `;
 
 const SectionsGrid = styled.div`
   display: grid;
@@ -91,14 +72,14 @@ const ViewMore = styled.div`
 
 export default function Papazoff() {
   const [data, setData] = useState(null);
-  // const [artist, setArtist] = useState(null);
+  const [contactInfo, setContactInfo] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Promise.all([getPapazoffInfo(), getArtistInfo()])
-      .then(([papazoff, artistInfo]) => {
+    Promise.all([getPapazoffInfo(), getContactInfo()])
+      .then(([papazoff, contact]) => {
         setData(papazoff);
-        // setArtist(artistInfo);
+        setContactInfo(contact);
       })
       .finally(() => setLoading(false));
   }, []);
@@ -152,16 +133,17 @@ export default function Papazoff() {
         data.poesie?.[0]?.description ||
         "Les écrits poétiques et les voix de l’artiste.",
     },
+    {
+      key: "contact",
+      title: "Contact",
+      link: "/papazoff/contact",
+      img: contactInfo?.introImageUrl || "/placeholder.jpg",
+      desc: "Pour contacter l’artiste ou obtenir des informations complémentaires.",
+    },
   ];
 
   return (
     <Container className="fade-in">
-      {/* <Header>
-        <div>
-          <Title>{artist?.name || data?.name || "Georges Papazoff"}</Title>
-        </div>
-      </Header> */}
-
       <SectionsGrid>
         {sections.map((section) => (
           <ViewMore>

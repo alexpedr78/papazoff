@@ -155,7 +155,7 @@ const Navigation = () => {
   const navItems = [
     { path: "/Galerie", label: "Galerie" },
     { path: "/expositions", label: "Expositions" },
-    { path: "/manifeste", label: "A propos" },
+    { path: "/a-propos", label: "A propos" },
   ];
 
   const toggleMobileMenu = () => {
