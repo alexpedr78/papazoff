@@ -191,7 +191,16 @@ export default function SerieDetail() {
         />
       )}
       {serie.documentUrl && (
-        <div style={{ margin: "2rem 0" }}>
+        <div
+          style={{
+            background: "#111",
+            border: "1px solid #222",
+            borderRadius: "12px",
+            padding: "1.5rem",
+            margin: "3rem 0",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.3)",
+          }}
+        >
           {/* <h3>{serie.documentName}</h3> */}
           {serie.documentUrl.endsWith(".pdf") ? (
             <iframe
@@ -200,8 +209,10 @@ export default function SerieDetail() {
               width="100%"
               height="600"
               style={{
-                border: "none",
+                border: "1px solid #333",
                 borderRadius: "8px",
+                background: "#000",
+                boxShadow: "inset 0 0 10px rgba(255,255,255,0.05)",
               }}
             ></iframe>
           ) : (
@@ -212,6 +223,12 @@ export default function SerieDetail() {
               title={`Document Word – ${serie.documentName || serie.title}`}
               width="100%"
               height="600"
+              style={{
+                border: "1px solid #333",
+                borderRadius: "8px",
+                background: "#000",
+                boxShadow: "inset 0 0 10px rgba(255,255,255,0.05)",
+              }}
               frameBorder="0"
             ></iframe>
           )}
