@@ -123,6 +123,7 @@ export default function SerieDetail() {
       )}
       <h3>{p.title}</h3>
       {p.description && <p>{p.description}</p>}
+
       {p.year && (
         <p>
           <strong>Année :</strong> {p.year}
@@ -188,6 +189,33 @@ export default function SerieDetail() {
           alt="Aperçu"
           onClose={() => setModalImage(null)}
         />
+      )}
+      {serie.documentUrl && (
+        <div style={{ margin: "2rem 0" }}>
+          {/* <h3>{serie.documentName}</h3> */}
+          {serie.documentUrl.endsWith(".pdf") ? (
+            <iframe
+              src={`${serie.documentUrl}#toolbar=0`}
+              title={`Document PDF – ${serie.documentName || serie.title}`}
+              width="100%"
+              height="600"
+              style={{
+                border: "none",
+                borderRadius: "8px",
+              }}
+            ></iframe>
+          ) : (
+            <iframe
+              src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(
+                serie.documentUrl
+              )}`}
+              title={`Document Word – ${serie.documentName || serie.title}`}
+              width="100%"
+              height="600"
+              frameBorder="0"
+            ></iframe>
+          )}
+        </div>
       )}
     </Container>
   );

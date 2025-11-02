@@ -331,7 +331,9 @@ export const getSeries = async () => {
       _id,
       title,
       description,
-      coverImage,               
+      coverImage,   
+      "documentUrl": document.asset->url,
+      "documentName": document.asset->originalFilename,            
       "paintings": paintings[]->{  
         _id,
         title,
@@ -353,6 +355,8 @@ export const getSerieByTitle = async (title) => {
     _id,
     title,
     description,
+     "documentUrl": document.asset->url,
+      "documentName": document.asset->originalFilename,   
     paintings[]->{
       _id,
       price,
